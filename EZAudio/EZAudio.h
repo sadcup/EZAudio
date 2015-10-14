@@ -44,6 +44,7 @@
 #import "EZAudioDisplayLink.h"
 #import "EZAudioPlot.h"
 #import "EZAudioPlotGL.h"
+#import "EZAudioSpectralPlot.h"
 
 //------------------------------------------------------------------------------
 #pragma mark - Utility Components
