@@ -1,0 +1,646 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E95FE1661BCCF94F00825AE6 /* test.bmp in Resources */ = {isa = PBXBuildFile; fileRef = E95FE1651BCCF94F00825AE6 /* test.bmp */; settings = {ASSET_TAGS = (); }; };
+		E97022641BCE4442001B15FF /* EZAudioSpectralPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = E97022631BCE4442001B15FF /* EZAudioSpectralPlot.m */; settings = {ASSET_TAGS = (); }; };
+		E99FCFAA1BCB8CFF00A08B9D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFA91BCB8CFF00A08B9D /* AppDelegate.m */; };
+		E99FCFAD1BCB8CFF00A08B9D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFAC1BCB8CFF00A08B9D /* main.m */; };
+		E99FCFB21BCB8CFF00A08B9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E99FCFB11BCB8CFF00A08B9D /* Assets.xcassets */; };
+		E99FCFB51BCB8CFF00A08B9D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E99FCFB31BCB8CFF00A08B9D /* Main.storyboard */; };
+		E99FCFC01BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFBF1BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleTests.m */; };
+		E99FCFCB1BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFCA1BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleUITests.m */; };
+		E99FCFFC1BCB8E9500A08B9D /* EZAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFDA1BCB8E9500A08B9D /* EZAudio.m */; settings = {ASSET_TAGS = (); }; };
+		E99FCFFD1BCB8E9500A08B9D /* EZAudioDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFDC1BCB8E9500A08B9D /* EZAudioDevice.m */; settings = {ASSET_TAGS = (); }; };
+		E99FCFFE1BCB8E9500A08B9D /* EZAudioDisplayLink.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFDE1BCB8E9500A08B9D /* EZAudioDisplayLink.m */; settings = {ASSET_TAGS = (); }; };
+		E99FCFFF1BCB8E9500A08B9D /* EZAudioFFT.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFE01BCB8E9500A08B9D /* EZAudioFFT.m */; settings = {ASSET_TAGS = (); }; };
+		E99FD0001BCB8E9500A08B9D /* EZAudioFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFE21BCB8E9500A08B9D /* EZAudioFile.m */; settings = {ASSET_TAGS = (); }; };
+		E99FD0011BCB8E9500A08B9D /* EZAudioFloatConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFE41BCB8E9500A08B9D /* EZAudioFloatConverter.m */; settings = {ASSET_TAGS = (); }; };
+		E99FD0021BCB8E9500A08B9D /* EZAudioFloatData.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFE61BCB8E9500A08B9D /* EZAudioFloatData.m */; settings = {ASSET_TAGS = (); }; };
+		E99FD0031BCB8E9500A08B9D /* EZAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFE81BCB8E9500A08B9D /* EZAudioPlayer.m */; settings = {ASSET_TAGS = (); }; };
+		E99FD0041BCB8E9500A08B9D /* EZAudioPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFEA1BCB8E9500A08B9D /* EZAudioPlot.m */; settings = {ASSET_TAGS = (); }; };
+		E99FD0051BCB8E9500A08B9D /* EZAudioPlotGL.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFEC1BCB8E9500A08B9D /* EZAudioPlotGL.m */; settings = {ASSET_TAGS = (); }; };
+		E99FD0061BCB8E9500A08B9D /* EZAudioUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFEE1BCB8E9500A08B9D /* EZAudioUtilities.m */; settings = {ASSET_TAGS = (); }; };
+		E99FD0071BCB8E9500A08B9D /* EZMicrophone.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFF01BCB8E9500A08B9D /* EZMicrophone.m */; settings = {ASSET_TAGS = (); }; };
+		E99FD0081BCB8E9500A08B9D /* EZOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFF21BCB8E9500A08B9D /* EZOutput.m */; settings = {ASSET_TAGS = (); }; };
+		E99FD0091BCB8E9500A08B9D /* EZPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFF41BCB8E9500A08B9D /* EZPlot.m */; settings = {ASSET_TAGS = (); }; };
+		E99FD00A1BCB8E9500A08B9D /* EZRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFF61BCB8E9500A08B9D /* EZRecorder.m */; settings = {ASSET_TAGS = (); }; };
+		E99FD00B1BCB8E9500A08B9D /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = E99FCFF71BCB8E9500A08B9D /* TPCircularBuffer.c */; settings = {ASSET_TAGS = (); }; };
+		E99FD00C1BCB8E9500A08B9D /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = E99FCFFA1BCB8E9500A08B9D /* CHANGELOG */; settings = {ASSET_TAGS = (); }; };
+		E99FD00D1BCB8E9500A08B9D /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = E99FCFFB1BCB8E9500A08B9D /* VERSION */; settings = {ASSET_TAGS = (); }; };
+		E99FD0101BCB8FAB00A08B9D /* SpectralFrequencyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99FD00F1BCB8FAB00A08B9D /* SpectralFrequencyViewController.m */; settings = {ASSET_TAGS = (); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E99FCFBC1BCB8CFF00A08B9D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E99FCF9D1BCB8CFE00A08B9D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E99FCFA41BCB8CFE00A08B9D;
+			remoteInfo = EZAudioSpectralFrequencyExample;
+		};
+		E99FCFC71BCB8CFF00A08B9D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E99FCF9D1BCB8CFE00A08B9D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E99FCFA41BCB8CFE00A08B9D;
+			remoteInfo = EZAudioSpectralFrequencyExample;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E95FE1651BCCF94F00825AE6 /* test.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = test.bmp; path = ../../../../../../../Desktop/test.bmp; sourceTree = "<group>"; };
+		E97022621BCE4442001B15FF /* EZAudioSpectralPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudioSpectralPlot.h; sourceTree = "<group>"; };
+		E97022631BCE4442001B15FF /* EZAudioSpectralPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudioSpectralPlot.m; sourceTree = "<group>"; };
+		E99FCFA51BCB8CFE00A08B9D /* EZAudioSpectralFrequencyExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EZAudioSpectralFrequencyExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E99FCFA81BCB8CFE00A08B9D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		E99FCFA91BCB8CFF00A08B9D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		E99FCFAC1BCB8CFF00A08B9D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E99FCFB11BCB8CFF00A08B9D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E99FCFB41BCB8CFF00A08B9D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E99FCFB61BCB8CFF00A08B9D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E99FCFBB1BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EZAudioSpectralFrequencyExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E99FCFBF1BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EZAudioSpectralFrequencyExampleTests.m; sourceTree = "<group>"; };
+		E99FCFC11BCB8CFF00A08B9D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E99FCFC61BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EZAudioSpectralFrequencyExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E99FCFCA1BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EZAudioSpectralFrequencyExampleUITests.m; sourceTree = "<group>"; };
+		E99FCFCC1BCB8CFF00A08B9D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E99FCFD91BCB8E9500A08B9D /* EZAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudio.h; sourceTree = "<group>"; };
+		E99FCFDA1BCB8E9500A08B9D /* EZAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudio.m; sourceTree = "<group>"; };
+		E99FCFDB1BCB8E9500A08B9D /* EZAudioDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudioDevice.h; sourceTree = "<group>"; };
+		E99FCFDC1BCB8E9500A08B9D /* EZAudioDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudioDevice.m; sourceTree = "<group>"; };
+		E99FCFDD1BCB8E9500A08B9D /* EZAudioDisplayLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudioDisplayLink.h; sourceTree = "<group>"; };
+		E99FCFDE1BCB8E9500A08B9D /* EZAudioDisplayLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudioDisplayLink.m; sourceTree = "<group>"; };
+		E99FCFDF1BCB8E9500A08B9D /* EZAudioFFT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudioFFT.h; sourceTree = "<group>"; };
+		E99FCFE01BCB8E9500A08B9D /* EZAudioFFT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudioFFT.m; sourceTree = "<group>"; };
+		E99FCFE11BCB8E9500A08B9D /* EZAudioFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudioFile.h; sourceTree = "<group>"; };
+		E99FCFE21BCB8E9500A08B9D /* EZAudioFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudioFile.m; sourceTree = "<group>"; };
+		E99FCFE31BCB8E9500A08B9D /* EZAudioFloatConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudioFloatConverter.h; sourceTree = "<group>"; };
+		E99FCFE41BCB8E9500A08B9D /* EZAudioFloatConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudioFloatConverter.m; sourceTree = "<group>"; };
+		E99FCFE51BCB8E9500A08B9D /* EZAudioFloatData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudioFloatData.h; sourceTree = "<group>"; };
+		E99FCFE61BCB8E9500A08B9D /* EZAudioFloatData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudioFloatData.m; sourceTree = "<group>"; };
+		E99FCFE71BCB8E9500A08B9D /* EZAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudioPlayer.h; sourceTree = "<group>"; };
+		E99FCFE81BCB8E9500A08B9D /* EZAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudioPlayer.m; sourceTree = "<group>"; };
+		E99FCFE91BCB8E9500A08B9D /* EZAudioPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudioPlot.h; sourceTree = "<group>"; };
+		E99FCFEA1BCB8E9500A08B9D /* EZAudioPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudioPlot.m; sourceTree = "<group>"; };
+		E99FCFEB1BCB8E9500A08B9D /* EZAudioPlotGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudioPlotGL.h; sourceTree = "<group>"; };
+		E99FCFEC1BCB8E9500A08B9D /* EZAudioPlotGL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudioPlotGL.m; sourceTree = "<group>"; };
+		E99FCFED1BCB8E9500A08B9D /* EZAudioUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudioUtilities.h; sourceTree = "<group>"; };
+		E99FCFEE1BCB8E9500A08B9D /* EZAudioUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudioUtilities.m; sourceTree = "<group>"; };
+		E99FCFEF1BCB8E9500A08B9D /* EZMicrophone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZMicrophone.h; sourceTree = "<group>"; };
+		E99FCFF01BCB8E9500A08B9D /* EZMicrophone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZMicrophone.m; sourceTree = "<group>"; };
+		E99FCFF11BCB8E9500A08B9D /* EZOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZOutput.h; sourceTree = "<group>"; };
+		E99FCFF21BCB8E9500A08B9D /* EZOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZOutput.m; sourceTree = "<group>"; };
+		E99FCFF31BCB8E9500A08B9D /* EZPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZPlot.h; sourceTree = "<group>"; };
+		E99FCFF41BCB8E9500A08B9D /* EZPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZPlot.m; sourceTree = "<group>"; };
+		E99FCFF51BCB8E9500A08B9D /* EZRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZRecorder.h; sourceTree = "<group>"; };
+		E99FCFF61BCB8E9500A08B9D /* EZRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZRecorder.m; sourceTree = "<group>"; };
+		E99FCFF71BCB8E9500A08B9D /* TPCircularBuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TPCircularBuffer.c; sourceTree = "<group>"; };
+		E99FCFF81BCB8E9500A08B9D /* TPCircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPCircularBuffer.h; sourceTree = "<group>"; };
+		E99FCFFA1BCB8E9500A08B9D /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
+		E99FCFFB1BCB8E9500A08B9D /* VERSION */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VERSION; sourceTree = "<group>"; };
+		E99FD00E1BCB8FAB00A08B9D /* SpectralFrequencyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectralFrequencyViewController.h; sourceTree = "<group>"; };
+		E99FD00F1BCB8FAB00A08B9D /* SpectralFrequencyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpectralFrequencyViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E99FCFA21BCB8CFE00A08B9D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E99FCFB81BCB8CFF00A08B9D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E99FCFC31BCB8CFF00A08B9D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E99FCF9C1BCB8CFE00A08B9D = {
+			isa = PBXGroup;
+			children = (
+				E99FCFA71BCB8CFE00A08B9D /* EZAudioSpectralFrequencyExample */,
+				E99FCFBE1BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleTests */,
+				E99FCFC91BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleUITests */,
+				E99FCFA61BCB8CFE00A08B9D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E99FCFA61BCB8CFE00A08B9D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E99FCFA51BCB8CFE00A08B9D /* EZAudioSpectralFrequencyExample.app */,
+				E99FCFBB1BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleTests.xctest */,
+				E99FCFC61BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E99FCFA71BCB8CFE00A08B9D /* EZAudioSpectralFrequencyExample */ = {
+			isa = PBXGroup;
+			children = (
+				E99FCFD81BCB8E9500A08B9D /* EZAudio */,
+				E99FCFA81BCB8CFE00A08B9D /* AppDelegate.h */,
+				E99FCFA91BCB8CFF00A08B9D /* AppDelegate.m */,
+				E99FD00E1BCB8FAB00A08B9D /* SpectralFrequencyViewController.h */,
+				E99FD00F1BCB8FAB00A08B9D /* SpectralFrequencyViewController.m */,
+				E99FCFB11BCB8CFF00A08B9D /* Assets.xcassets */,
+				E99FCFB31BCB8CFF00A08B9D /* Main.storyboard */,
+				E99FCFB61BCB8CFF00A08B9D /* Info.plist */,
+				E99FCFAB1BCB8CFF00A08B9D /* Supporting Files */,
+			);
+			path = EZAudioSpectralFrequencyExample;
+			sourceTree = "<group>";
+		};
+		E99FCFAB1BCB8CFF00A08B9D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E95FE1651BCCF94F00825AE6 /* test.bmp */,
+				E99FCFAC1BCB8CFF00A08B9D /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E99FCFBE1BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				E99FCFBF1BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleTests.m */,
+				E99FCFC11BCB8CFF00A08B9D /* Info.plist */,
+			);
+			path = EZAudioSpectralFrequencyExampleTests;
+			sourceTree = "<group>";
+		};
+		E99FCFC91BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleUITests */ = {
+			isa = PBXGroup;
+			children = (
+				E99FCFCA1BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleUITests.m */,
+				E99FCFCC1BCB8CFF00A08B9D /* Info.plist */,
+			);
+			path = EZAudioSpectralFrequencyExampleUITests;
+			sourceTree = "<group>";
+		};
+		E99FCFD81BCB8E9500A08B9D /* EZAudio */ = {
+			isa = PBXGroup;
+			children = (
+				E99FCFD91BCB8E9500A08B9D /* EZAudio.h */,
+				E99FCFDA1BCB8E9500A08B9D /* EZAudio.m */,
+				E99FCFDB1BCB8E9500A08B9D /* EZAudioDevice.h */,
+				E99FCFDC1BCB8E9500A08B9D /* EZAudioDevice.m */,
+				E99FCFDD1BCB8E9500A08B9D /* EZAudioDisplayLink.h */,
+				E99FCFDE1BCB8E9500A08B9D /* EZAudioDisplayLink.m */,
+				E99FCFDF1BCB8E9500A08B9D /* EZAudioFFT.h */,
+				E99FCFE01BCB8E9500A08B9D /* EZAudioFFT.m */,
+				E99FCFE11BCB8E9500A08B9D /* EZAudioFile.h */,
+				E99FCFE21BCB8E9500A08B9D /* EZAudioFile.m */,
+				E99FCFE31BCB8E9500A08B9D /* EZAudioFloatConverter.h */,
+				E99FCFE41BCB8E9500A08B9D /* EZAudioFloatConverter.m */,
+				E99FCFE51BCB8E9500A08B9D /* EZAudioFloatData.h */,
+				E99FCFE61BCB8E9500A08B9D /* EZAudioFloatData.m */,
+				E99FCFE71BCB8E9500A08B9D /* EZAudioPlayer.h */,
+				E99FCFE81BCB8E9500A08B9D /* EZAudioPlayer.m */,
+				E99FCFE91BCB8E9500A08B9D /* EZAudioPlot.h */,
+				E99FCFEA1BCB8E9500A08B9D /* EZAudioPlot.m */,
+				E97022621BCE4442001B15FF /* EZAudioSpectralPlot.h */,
+				E97022631BCE4442001B15FF /* EZAudioSpectralPlot.m */,
+				E99FCFEB1BCB8E9500A08B9D /* EZAudioPlotGL.h */,
+				E99FCFEC1BCB8E9500A08B9D /* EZAudioPlotGL.m */,
+				E99FCFED1BCB8E9500A08B9D /* EZAudioUtilities.h */,
+				E99FCFEE1BCB8E9500A08B9D /* EZAudioUtilities.m */,
+				E99FCFEF1BCB8E9500A08B9D /* EZMicrophone.h */,
+				E99FCFF01BCB8E9500A08B9D /* EZMicrophone.m */,
+				E99FCFF11BCB8E9500A08B9D /* EZOutput.h */,
+				E99FCFF21BCB8E9500A08B9D /* EZOutput.m */,
+				E99FCFF31BCB8E9500A08B9D /* EZPlot.h */,
+				E99FCFF41BCB8E9500A08B9D /* EZPlot.m */,
+				E99FCFF51BCB8E9500A08B9D /* EZRecorder.h */,
+				E99FCFF61BCB8E9500A08B9D /* EZRecorder.m */,
+				E99FCFF71BCB8E9500A08B9D /* TPCircularBuffer.c */,
+				E99FCFF81BCB8E9500A08B9D /* TPCircularBuffer.h */,
+				E99FCFF91BCB8E9500A08B9D /* VERSION */,
+			);
+			name = EZAudio;
+			path = ../../../../EZAudio;
+			sourceTree = "<group>";
+		};
+		E99FCFF91BCB8E9500A08B9D /* VERSION */ = {
+			isa = PBXGroup;
+			children = (
+				E99FCFFA1BCB8E9500A08B9D /* CHANGELOG */,
+				E99FCFFB1BCB8E9500A08B9D /* VERSION */,
+			);
+			path = VERSION;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E99FCFA41BCB8CFE00A08B9D /* EZAudioSpectralFrequencyExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E99FCFCF1BCB8CFF00A08B9D /* Build configuration list for PBXNativeTarget "EZAudioSpectralFrequencyExample" */;
+			buildPhases = (
+				E99FCFA11BCB8CFE00A08B9D /* Sources */,
+				E99FCFA21BCB8CFE00A08B9D /* Frameworks */,
+				E99FCFA31BCB8CFE00A08B9D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EZAudioSpectralFrequencyExample;
+			productName = EZAudioSpectralFrequencyExample;
+			productReference = E99FCFA51BCB8CFE00A08B9D /* EZAudioSpectralFrequencyExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E99FCFBA1BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E99FCFD21BCB8CFF00A08B9D /* Build configuration list for PBXNativeTarget "EZAudioSpectralFrequencyExampleTests" */;
+			buildPhases = (
+				E99FCFB71BCB8CFF00A08B9D /* Sources */,
+				E99FCFB81BCB8CFF00A08B9D /* Frameworks */,
+				E99FCFB91BCB8CFF00A08B9D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E99FCFBD1BCB8CFF00A08B9D /* PBXTargetDependency */,
+			);
+			name = EZAudioSpectralFrequencyExampleTests;
+			productName = EZAudioSpectralFrequencyExampleTests;
+			productReference = E99FCFBB1BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E99FCFC51BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E99FCFD51BCB8CFF00A08B9D /* Build configuration list for PBXNativeTarget "EZAudioSpectralFrequencyExampleUITests" */;
+			buildPhases = (
+				E99FCFC21BCB8CFF00A08B9D /* Sources */,
+				E99FCFC31BCB8CFF00A08B9D /* Frameworks */,
+				E99FCFC41BCB8CFF00A08B9D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E99FCFC81BCB8CFF00A08B9D /* PBXTargetDependency */,
+			);
+			name = EZAudioSpectralFrequencyExampleUITests;
+			productName = EZAudioSpectralFrequencyExampleUITests;
+			productReference = E99FCFC61BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E99FCF9D1BCB8CFE00A08B9D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = Sadcup;
+				TargetAttributes = {
+					E99FCFA41BCB8CFE00A08B9D = {
+						CreatedOnToolsVersion = 7.0;
+					};
+					E99FCFBA1BCB8CFF00A08B9D = {
+						CreatedOnToolsVersion = 7.0;
+						TestTargetID = E99FCFA41BCB8CFE00A08B9D;
+					};
+					E99FCFC51BCB8CFF00A08B9D = {
+						CreatedOnToolsVersion = 7.0;
+						TestTargetID = E99FCFA41BCB8CFE00A08B9D;
+					};
+				};
+			};
+			buildConfigurationList = E99FCFA01BCB8CFE00A08B9D /* Build configuration list for PBXProject "EZAudioSpectralFrequencyExample" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E99FCF9C1BCB8CFE00A08B9D;
+			productRefGroup = E99FCFA61BCB8CFE00A08B9D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E99FCFA41BCB8CFE00A08B9D /* EZAudioSpectralFrequencyExample */,
+				E99FCFBA1BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleTests */,
+				E99FCFC51BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E99FCFA31BCB8CFE00A08B9D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E99FCFB21BCB8CFF00A08B9D /* Assets.xcassets in Resources */,
+				E99FD00D1BCB8E9500A08B9D /* VERSION in Resources */,
+				E99FCFB51BCB8CFF00A08B9D /* Main.storyboard in Resources */,
+				E95FE1661BCCF94F00825AE6 /* test.bmp in Resources */,
+				E99FD00C1BCB8E9500A08B9D /* CHANGELOG in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E99FCFB91BCB8CFF00A08B9D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E99FCFC41BCB8CFF00A08B9D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E99FCFA11BCB8CFE00A08B9D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E99FD00A1BCB8E9500A08B9D /* EZRecorder.m in Sources */,
+				E99FD0101BCB8FAB00A08B9D /* SpectralFrequencyViewController.m in Sources */,
+				E99FD0041BCB8E9500A08B9D /* EZAudioPlot.m in Sources */,
+				E99FD0031BCB8E9500A08B9D /* EZAudioPlayer.m in Sources */,
+				E99FD0051BCB8E9500A08B9D /* EZAudioPlotGL.m in Sources */,
+				E99FD0001BCB8E9500A08B9D /* EZAudioFile.m in Sources */,
+				E99FD0081BCB8E9500A08B9D /* EZOutput.m in Sources */,
+				E99FCFFC1BCB8E9500A08B9D /* EZAudio.m in Sources */,
+				E99FD00B1BCB8E9500A08B9D /* TPCircularBuffer.c in Sources */,
+				E99FCFAD1BCB8CFF00A08B9D /* main.m in Sources */,
+				E99FD0021BCB8E9500A08B9D /* EZAudioFloatData.m in Sources */,
+				E99FD0071BCB8E9500A08B9D /* EZMicrophone.m in Sources */,
+				E97022641BCE4442001B15FF /* EZAudioSpectralPlot.m in Sources */,
+				E99FD0011BCB8E9500A08B9D /* EZAudioFloatConverter.m in Sources */,
+				E99FCFAA1BCB8CFF00A08B9D /* AppDelegate.m in Sources */,
+				E99FCFFE1BCB8E9500A08B9D /* EZAudioDisplayLink.m in Sources */,
+				E99FD0091BCB8E9500A08B9D /* EZPlot.m in Sources */,
+				E99FCFFF1BCB8E9500A08B9D /* EZAudioFFT.m in Sources */,
+				E99FD0061BCB8E9500A08B9D /* EZAudioUtilities.m in Sources */,
+				E99FCFFD1BCB8E9500A08B9D /* EZAudioDevice.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E99FCFB71BCB8CFF00A08B9D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E99FCFC01BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E99FCFC21BCB8CFF00A08B9D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E99FCFCB1BCB8CFF00A08B9D /* EZAudioSpectralFrequencyExampleUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E99FCFBD1BCB8CFF00A08B9D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E99FCFA41BCB8CFE00A08B9D /* EZAudioSpectralFrequencyExample */;
+			targetProxy = E99FCFBC1BCB8CFF00A08B9D /* PBXContainerItemProxy */;
+		};
+		E99FCFC81BCB8CFF00A08B9D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E99FCFA41BCB8CFE00A08B9D /* EZAudioSpectralFrequencyExample */;
+			targetProxy = E99FCFC71BCB8CFF00A08B9D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E99FCFB31BCB8CFF00A08B9D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E99FCFB41BCB8CFF00A08B9D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E99FCFCD1BCB8CFF00A08B9D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		E99FCFCE1BCB8CFF00A08B9D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		E99FCFD01BCB8CFF00A08B9D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = EZAudioSpectralFrequencyExample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = sadcup.EZAudioSpectralFrequencyExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E99FCFD11BCB8CFF00A08B9D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = EZAudioSpectralFrequencyExample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = sadcup.EZAudioSpectralFrequencyExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		E99FCFD31BCB8CFF00A08B9D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = EZAudioSpectralFrequencyExampleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = sadcup.EZAudioSpectralFrequencyExampleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EZAudioSpectralFrequencyExample.app/Contents/MacOS/EZAudioSpectralFrequencyExample";
+			};
+			name = Debug;
+		};
+		E99FCFD41BCB8CFF00A08B9D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = EZAudioSpectralFrequencyExampleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = sadcup.EZAudioSpectralFrequencyExampleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EZAudioSpectralFrequencyExample.app/Contents/MacOS/EZAudioSpectralFrequencyExample";
+			};
+			name = Release;
+		};
+		E99FCFD61BCB8CFF00A08B9D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = EZAudioSpectralFrequencyExampleUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = sadcup.EZAudioSpectralFrequencyExampleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = EZAudioSpectralFrequencyExample;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		E99FCFD71BCB8CFF00A08B9D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = EZAudioSpectralFrequencyExampleUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = sadcup.EZAudioSpectralFrequencyExampleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = EZAudioSpectralFrequencyExample;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E99FCFA01BCB8CFE00A08B9D /* Build configuration list for PBXProject "EZAudioSpectralFrequencyExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E99FCFCD1BCB8CFF00A08B9D /* Debug */,
+				E99FCFCE1BCB8CFF00A08B9D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E99FCFCF1BCB8CFF00A08B9D /* Build configuration list for PBXNativeTarget "EZAudioSpectralFrequencyExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E99FCFD01BCB8CFF00A08B9D /* Debug */,
+				E99FCFD11BCB8CFF00A08B9D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E99FCFD21BCB8CFF00A08B9D /* Build configuration list for PBXNativeTarget "EZAudioSpectralFrequencyExampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E99FCFD31BCB8CFF00A08B9D /* Debug */,
+				E99FCFD41BCB8CFF00A08B9D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E99FCFD51BCB8CFF00A08B9D /* Build configuration list for PBXNativeTarget "EZAudioSpectralFrequencyExampleUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E99FCFD61BCB8CFF00A08B9D /* Debug */,
+				E99FCFD71BCB8CFF00A08B9D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E99FCF9D1BCB8CFE00A08B9D /* Project object */;
+}
