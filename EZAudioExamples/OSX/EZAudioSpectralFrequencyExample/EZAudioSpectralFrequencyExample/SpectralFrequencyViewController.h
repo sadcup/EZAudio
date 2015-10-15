@@ -13,7 +13,7 @@
  */
 #import "EZAudio.h"
 
-@interface SpectralFrequencyViewController : NSViewController <EZMicrophoneDelegate>
+@interface SpectralFrequencyViewController : NSViewController <EZMicrophoneDelegate, EZAudioFFTDelegate>
 
 //------------------------------------------------------------------------------
 #pragma mark - Components
@@ -54,6 +54,11 @@
 -(IBAction)toggleMicrophone:(id)sender;
 
 //------------------------------------------------------------------------------
+
+/**
+ Used to calculate a rolling FFT of the incoming audio data.
+ */
+@property (nonatomic, strong) EZAudioFFTRolling *fft;
 
 @end
  

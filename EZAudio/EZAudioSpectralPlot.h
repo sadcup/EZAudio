@@ -63,7 +63,8 @@ FOUNDATION_EXPORT UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength;
 /**
  The EZAudioSpectralPlotWaveformLayer is a lightweight subclass of the CAShapeLayer that allows implicit animations on the `path` key.
  */
-@interface EZAudioSpectralPlotWaveformLayer : CAShapeLayer
+//@interface EZAudioSpectralPlotWaveformLayer : CAShapeLayer
+@interface EZAudioSpectralPlotWaveformLayer : CALayer
 @end
 
 //------------------------------------------------------------------------------
@@ -102,7 +103,9 @@ FOUNDATION_EXPORT UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength;
 /**
  An EZAudioSpectralPlotWaveformLayer that is used to render the actual waveform. By switching the drawing code to Core Animation layers in version 0.2.0 most work, specifically the compositing step, is now done on the GPU. Hence, multiple EZAudioSpectralPlot instances can be used simultaneously with very low CPU overhead so these are now practical for table and collection views.
  */
-@property (nonatomic, strong) EZAudioSpectralPlotWaveformLayer *waveformLayer;
+@property (nonatomic, strong) EZAudioSpectralPlotWaveformLayer *spectrogramLayer;
+
+
 
 //------------------------------------------------------------------------------
 #pragma mark - Adjust Resolution
@@ -195,5 +198,8 @@ FOUNDATION_EXPORT UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength;
 -(void)setSampleData:(float *)data length:(int)length;
 
 //------------------------------------------------------------------------------
+
+
+
 
 @end

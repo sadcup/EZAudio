@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Spectrogram View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="SpectrogramViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="peE-7Y-nDc" customClass="EZAudioPlot">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="299"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3gD-hj-tUX" customClass="EZAudioSpectralPlot">
+                                <rect key="frame" x="0.0" y="301" width="600" height="299"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                        <color key="value" red="0.40000000000000002" green="0.80000000000000004" blue="0.99215472029999996" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                        <color key="value" red="0.95294117649999999" green="0.67450980390000004" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="gain">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="shouldFill" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="shouldMirror" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3gD-hj-tUX" firstAttribute="height" secondItem="peE-7Y-nDc" secondAttribute="height" id="BVt-zO-Hxy"/>
+                            <constraint firstItem="peE-7Y-nDc" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="DRj-GG-rKw"/>
+                            <constraint firstItem="3gD-hj-tUX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="HwN-NB-obz"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="peE-7Y-nDc" secondAttribute="bottom" id="Jpe-Jd-YqZ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="3gD-hj-tUX" secondAttribute="trailing" constant="-20" id="M28-kp-d1W"/>
+                            <constraint firstItem="3gD-hj-tUX" firstAttribute="top" secondItem="peE-7Y-nDc" secondAttribute="bottom" constant="2" id="R60-YH-ebT"/>
+                            <constraint firstItem="peE-7Y-nDc" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="gse-G0-RCI"/>
+                            <constraint firstItem="peE-7Y-nDc" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="kNB-r6-cf6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="peE-7Y-nDc" secondAttribute="trailing" constant="-20" id="mSn-hS-A50"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="3gD-hj-tUX" secondAttribute="bottom" id="stL-ea-oBI"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="DRj-GG-rKw"/>
+                                <exclude reference="Jpe-Jd-YqZ"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="audioPlot" destination="peE-7Y-nDc" id="lPl-Ee-k1t"/>
+                        <outlet property="sepctrogramPlot" destination="3gD-hj-tUX" id="iCa-Do-6re"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="242" y="389"/>
+        </scene>
+    </scenes>
+</document>

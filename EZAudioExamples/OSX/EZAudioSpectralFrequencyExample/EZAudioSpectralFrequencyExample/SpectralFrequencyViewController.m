@@ -41,6 +41,14 @@
     // Plot type
     self.spectralPlot.plotType = EZPlotTypeBuffer;
     
+    
+    //
+    // Create an instance of the EZAudioFFTRolling to keep a history of the incoming audio data and calculate the FFT.
+    //
+    self.fft = [EZAudioFFTRolling fftWithWindowSize:256
+                                         sampleRate:0
+                                           delegate:self];
+    
     //
     // Start the microphone
     //
@@ -151,16 +159,17 @@
        withBufferSize:(UInt32)bufferSize
  withNumberOfChannels:(UInt32)numberOfChannels
 {
+    //
+    // Calculate the FFT, will trigger EZAudioFFTDelegate
+    //
+    [self.fft computeFFTWithBuffer:buffer[0] withBufferSize:bufferSize];
+    
     __weak typeof (self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         [weakSelf.audioPlot updateBuffer:buffer[0]
                           withBufferSize:bufferSize];
     });
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [weakSelf.spectralPlot updateBuffer:buffer[0]
-                          withBufferSize:bufferSize];
-    });
 }
 
 //------------------------------------------------------------------------------
@@ -178,5 +187,25 @@
 
 //------------------------------------------------------------------------------
 
+//------------------------------------------------------------------------------
+#pragma mark - EZAudioFFTDelegate
+//------------------------------------------------------------------------------
+
+- (void)        fft:(EZAudioFFT *)fft
+ updatedWithFFTData:(float *)fftData
+         bufferSize:(vDSP_Length)bufferSize
+{
+    //float maxFrequency = [fft maxFrequency];
+    
+    __weak typeof (self) weakSelf = self;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf.spectralPlot updateBuffer:fftData
+                          withBufferSize:bufferSize];
+    });
+
+}
+
+//------------------------------------------------------------------------------
 
 @end
