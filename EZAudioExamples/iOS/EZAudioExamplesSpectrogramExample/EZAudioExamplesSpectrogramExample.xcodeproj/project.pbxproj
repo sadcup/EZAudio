@@ -35,6 +35,8 @@
 		E9347F6B1BCF9B3F0075E7FA /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = E9347F581BCF9B3F0075E7FA /* CHANGELOG */; settings = {ASSET_TAGS = (); }; };
 		E9347F6C1BCF9B3F0075E7FA /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = E9347F591BCF9B3F0075E7FA /* VERSION */; settings = {ASSET_TAGS = (); }; };
 		E9347F6E1BCFA8590075E7FA /* test.bmp in Resources */ = {isa = PBXBuildFile; fileRef = E9347F6D1BCFA8590075E7FA /* test.bmp */; settings = {ASSET_TAGS = (); }; };
+		E96A3B811BD0AC5000592C31 /* test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E96A3B801BD0AC5000592C31 /* test.jpg */; settings = {ASSET_TAGS = (); }; };
+		E96A3BC91BD46F5200592C31 /* EZAudioSTFT.m in Sources */ = {isa = PBXBuildFile; fileRef = E96A3BC81BD46F5200592C31 /* EZAudioSTFT.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +110,9 @@
 		E9347F581BCF9B3F0075E7FA /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
 		E9347F591BCF9B3F0075E7FA /* VERSION */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VERSION; sourceTree = "<group>"; };
 		E9347F6D1BCFA8590075E7FA /* test.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = test.bmp; sourceTree = "<group>"; };
+		E96A3B801BD0AC5000592C31 /* test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test.jpg; sourceTree = "<group>"; };
+		E96A3BC71BD46F5200592C31 /* EZAudioSTFT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudioSTFT.h; sourceTree = "<group>"; };
+		E96A3BC81BD46F5200592C31 /* EZAudioSTFT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudioSTFT.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +180,7 @@
 		E9347F011BCF9B2F0075E7FA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E96A3B801BD0AC5000592C31 /* test.jpg */,
 				E9347F6D1BCFA8590075E7FA /* test.bmp */,
 				E9347F021BCF9B2F0075E7FA /* main.m */,
 			);
@@ -210,6 +216,8 @@
 				E9347F3A1BCF9B3F0075E7FA /* EZAudioDisplayLink.m */,
 				E9347F3B1BCF9B3F0075E7FA /* EZAudioFFT.h */,
 				E9347F3C1BCF9B3F0075E7FA /* EZAudioFFT.m */,
+				E96A3BC71BD46F5200592C31 /* EZAudioSTFT.h */,
+				E96A3BC81BD46F5200592C31 /* EZAudioSTFT.m */,
 				E9347F3D1BCF9B3F0075E7FA /* EZAudioFile.h */,
 				E9347F3E1BCF9B3F0075E7FA /* EZAudioFile.m */,
 				E9347F3F1BCF9B3F0075E7FA /* EZAudioFloatConverter.h */,
@@ -356,6 +364,7 @@
 			files = (
 				E9347F111BCF9B2F0075E7FA /* LaunchScreen.storyboard in Resources */,
 				E9347F6B1BCF9B3F0075E7FA /* CHANGELOG in Resources */,
+				E96A3B811BD0AC5000592C31 /* test.jpg in Resources */,
 				E9347F0E1BCF9B2F0075E7FA /* Assets.xcassets in Resources */,
 				E9347F6E1BCFA8590075E7FA /* test.bmp in Resources */,
 				E9347F0C1BCF9B2F0075E7FA /* Main.storyboard in Resources */,
@@ -396,6 +405,7 @@
 				E9347F681BCF9B3F0075E7FA /* EZPlot.m in Sources */,
 				E9347F601BCF9B3F0075E7FA /* EZAudioFloatData.m in Sources */,
 				E9347F691BCF9B3F0075E7FA /* EZRecorder.m in Sources */,
+				E96A3BC91BD46F5200592C31 /* EZAudioSTFT.m in Sources */,
 				E9347F5F1BCF9B3F0075E7FA /* EZAudioFloatConverter.m in Sources */,
 				E9347F031BCF9B2F0075E7FA /* main.m in Sources */,
 				E9347F5C1BCF9B3F0075E7FA /* EZAudioDisplayLink.m in Sources */,
