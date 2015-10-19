@@ -25,6 +25,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "EZPlot.h"
+#import "EZAudioSTFT.h"
 
 @class EZAudio;
 
@@ -65,6 +66,8 @@ FOUNDATION_EXPORT UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength;
  */
 //@interface EZAudioSpectralPlotWaveformLayer : CAShapeLayer
 @interface EZAudioSpectralPlotWaveformLayer : CALayer
+@property (nonatomic, assign) CGContextRef imagContext;
+@property (nonatomic, assign) UInt32 * data;
 @end
 
 //------------------------------------------------------------------------------
@@ -84,7 +87,7 @@ FOUNDATION_EXPORT UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength;
  See EZPlot for full API methods and properties (colors, plot type, update function)
  
  */
-@interface EZAudioSpectralPlot : EZPlot
+@interface EZAudioSpectralPlot : EZPlot <EZAudioSTFTDelegate>
 
 /**
  A BOOL that allows optimizing the audio plot's drawing for real-time displays. Since the update function may be updating the plot's data very quickly (over 60 frames per second) this property will throttle the drawing calls to be 60 frames per second (or whatever the screen rate is). Specifically, it disables implicit path change animations on the `waveformLayer` and sets up a display link to render 60 fps (audio updating the plot at 44.1 kHz causes it to re-render 86 fps - far greater than what is needed for a visual display).
@@ -199,7 +202,7 @@ FOUNDATION_EXPORT UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength;
 
 //------------------------------------------------------------------------------
 
-
+@property (nonatomic, strong) EZAudioSTFT * stft;
 
 
 @end

@@ -30,12 +30,14 @@
 - (instancetype)initWithBufferSize:(vDSP_Length)bufferSize sampleRate:(float)sampleRate delegate:(id<EZAudioSTFTDelegate>)delegate {
     self = [super init];
     if (self) {
-        //
-        // Create an instance of the EZAudioFFTRolling to keep a history of the incoming audio data and calculate the FFT.
-        //
-        self.fft = [EZAudioFFTRolling fftWithWindowSize:bufferSize
-                                             sampleRate:sampleRate
-                                               delegate:self];
+//        //
+//        // Create an instance of the EZAudioFFTRolling to keep a history of the incoming audio data and calculate the FFT.
+//        //
+//        self.fft = [EZAudioFFTRolling fftWithWindowSize:bufferSize
+//                                             sampleRate:sampleRate
+//                                               delegate:self];
+        
+        self.fft = [EZAudioFFT fftWithMaximumBufferSize:2048 sampleRate:0.0];
         self.bufferSize = bufferSize;
         [self setup];
     }
@@ -43,7 +45,7 @@
 }
 
 - (void)setup {
-    self.stftData = malloc(256 * self.bufferSize * sizeof(float));
+    self.stftData = malloc(256 * 10241 * sizeof(float));
 }
 - (void)dealloc {
     free(self.stftData);
@@ -52,6 +54,8 @@
 - (float *)computeSTFTWithBuffer:(float *)buffer
                   withBufferSize:(UInt32)bufferSize
 {
+    //NSLog(@"%u", (unsigned int)bufferSize);
+    
     if (buffer == NULL)
     {
         return NULL;
@@ -60,6 +64,7 @@
     int fftSize = 256;
     float sink[256];
     int windowLength = 30;
+    
     
     for (int i=0; i<bufferSize; i++) {
         
@@ -70,12 +75,17 @@
                 sink[j] = 0.0;
             }
         }
+        for (int j=windowLength; j<fftSize; j++) {
+            sink[j] = 0.0;
+        }
         
         float * fftData = [self.fft computeFFTWithBuffer:sink withBufferSize:fftSize];
         
         for (int k=0; k<fftSize; k++) {
-            self.stftData[i*bufferSize + k] = fftData[k];
+            //self.stftData[k*bufferSize + i] = fftData[k];
+            self.stftData[i * fftSize + k] = fftData[k];
         }
+        
     }
     
     return self.stftData;

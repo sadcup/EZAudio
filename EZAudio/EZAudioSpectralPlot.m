@@ -153,6 +153,7 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
     //self.waveformLayer.fillColor = nil;
     //self.spectrogramLayer.backgroundColor = nil;
     self.spectrogramLayer.opaque = YES;
+    NSLog(@"%@", self.spectrogramLayer.imagContext);
     
 #if TARGET_OS_IPHONE
     self.color = [UIColor colorWithHue:0 saturation:1.0 brightness:1.0 alpha:1.0]; 
@@ -174,6 +175,10 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
     
     self.points = calloc(EZAudioSpectralPlotDefaultMaxHistoryBufferLength, sizeof(CGPoint));
     self.pointCount = [self initialPointCount];
+    
+    self.stft = [[EZAudioSTFT alloc] initWithBufferSize:self.pointCount sampleRate:0.0 delegate:self];
+
+    
     [self redraw];
 }
 
@@ -263,6 +268,8 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
         float data[self.pointCount];
         memset(data, 0, self.pointCount * sizeof(float));
         [self setSampleData:data length:self.pointCount];
+        
+        
         [self redraw];
     }
 }
@@ -333,21 +340,6 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
 //    CGContextRestoreGState(ctx);
 //
 //}
-
-- (void)redraw {
-    NSLog(@"---------------------------------------");
-    NSLog(@"1-redraw is called.");
-    //[self.layer setNeedsDisplay];
-    //self.spectrogramLayer.backgroundColor = [UIColor blueColor].CGColor;
-    [self.spectrogramLayer setNeedsDisplay];
-    
-    //self.waveformLayer.position  = CGPointMake(self.waveformLayer.position.x + 1, self.waveformLayer.position.y);
-    //[self setNeedsDisplay:YES];
-    //self.waveformLayer.position = CGPointMake(self.waveformLayer.position.x+1, self.waveformLayer.position.y);
-    //[self.waveformLayer setNeedsDisplay];
-    
-}
-
 #pragma mark - Time Frequency Representation
 
 #define Mask8(x) ( (x) & 0xFF )
@@ -360,6 +352,79 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
 const unsigned int colormap_r[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,31,47,63,79,95,111,127,143,159,175,191,207,223,239,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,239,223,207,191,175,159,143,127};
 const unsigned int colormap_g[] = {0,0,0,0,0,0,0,0,15,31,47,63,79,95,111,127,143,159,175,191,207,223,239,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,239,223,207,191,175,159,143,127,111,95,79,63,47,31,15,0,0,0,0,0,0,0,0,0};
 const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,239,223,207,191,175,159,143,127,111,95,79,63,47,31,15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+- (void)redraw {
+    //NSLog(@"---------------------------------------");
+    //NSLog(@"1-redraw is called.");
+    //[self.layer setNeedsDisplay];
+    //self.spectrogramLayer.backgroundColor = [UIColor blueColor].CGColor;
+    //[self.spectrogramLayer setNeedsDisplay];
+    
+    //self.waveformLayer.position  = CGPointMake(self.waveformLayer.position.x + 1, self.waveformLayer.position.y);
+    //[self setNeedsDisplay:YES];
+    //self.waveformLayer.position = CGPointMake(self.waveformLayer.position.x+1, self.waveformLayer.position.y);
+    //[self.waveformLayer setNeedsDisplay];
+    
+    float * tmpData = malloc(self.pointCount * sizeof(float));
+    for (int i=0; i<self.pointCount; i++) {
+        tmpData[i] = self.points[i].y;
+        //tmpData[i] = sinf(2 * M_PI * 5000 * i / 44100);
+    }
+    
+    float * stftData = [self.stft computeSTFTWithBuffer:tmpData withBufferSize:self.pointCount];
+    
+    float maxValue = CGFLOAT_MIN;
+    for (int i=0; i<1024; i++) {
+        for (int j=0; j<256; j++) {
+            if (stftData[i*1024+j] > maxValue) {
+                maxValue = stftData[i*1024+j];
+            }
+        }
+    }
+    
+    free(tmpData);
+    
+//    UInt32 * from = self.spectrogramLayer.data + 1024 * 256;
+//    UInt32 * to = self.spectrogramLayer.data;
+//    for (int i=0; i<9; i++) {
+//        memcpy(to, from, 1024 * 256 *sizeof(UInt32));
+//        to += 1024 * 256;
+//        from += 1024 * 256;
+//    }
+
+    memcpy(self.spectrogramLayer.data, self.spectrogramLayer.data+1024 * 256, 1024 * 256 * 9 * sizeof(UInt32));
+    
+    
+    UInt32 * newData = self.spectrogramLayer.data + 9 * 1024 * 256;
+    
+    for (int i=0; i<1024; i++) {
+        for (int j=0; j<256; j++) {
+            //self.spectrogramLayer.data[i*1024 + j] = stftData[i*1024 + j];
+            
+            int colorIdx = (stftData[i*256+j]/maxValue * COLORMAPSIZE);
+            
+            if (colorIdx >= COLORMAPSIZE) colorIdx=COLORMAPSIZE-1;
+            if (colorIdx < 0) colorIdx = 0;
+            
+            UInt32 newR = colormap_r[colorIdx];
+            UInt32 newG = colormap_g[colorIdx];
+            UInt32 newB = colormap_b[colorIdx];
+            
+            //Clamp, not really useful here :p
+            newR = MAX(0,MIN(255, newR));
+            newG = MAX(0,MIN(255, newG));
+            newB = MAX(0,MIN(255, newB));
+            
+            //*inputPixel = RGBAMake(newR, newG, newB, A(inputColor));
+            newData[i*256 + j] = RGBAMake(newR, newG, newB, 0xFF);
+            
+        }
+    }
+    
+    [self.spectrogramLayer setNeedsDisplay];
+    
+}
+
+
 
 - (CGImageRef)imageOfTFR:(float *)tfr width:(NSUInteger)width heigth:(NSUInteger)height {
     UInt32 * pixels;
@@ -653,36 +718,6 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
     [self redraw];
 }
 
-//------------------------------------------------------------------------------
-CGContextRef MyCreateBitmapContext (int pixelsWide, int pixelsHigh) {
-    CGContextRef    context = NULL;
-    CGColorSpaceRef colorSpace;
-    void *          bitmapData;
-    int             bitmapByteCount;
-    int             bitmapBytesPerRow;
-    bitmapBytesPerRow   = (pixelsWide * 4);
-    bitmapByteCount     = (bitmapBytesPerRow * pixelsHigh);
-    colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
-    bitmapData = calloc ( bitmapByteCount, 1);
-    if (bitmapData == NULL) {
-        fprintf (stderr, "Memory not allocated!");
-        return NULL;
-    }
-    context = CGBitmapContextCreate (bitmapData,
-                                     pixelsWide,
-                                     pixelsHigh,
-                                     8,
-                                     bitmapBytesPerRow,
-                                     colorSpace,
-                                     kCGImageAlphaPremultipliedLast);
-    if (context== NULL) {
-        free (bitmapData);
-        fprintf (stderr, "Context not created!");
-        return NULL;
-    }
-    CGColorSpaceRelease( colorSpace );
-    return context;
-}
 
 //- (void)drawRect:(NSRect)dirtyRect {
 //    CGContextRef myContext = [[NSGraphicsContext currentContext] graphicsPort];
@@ -714,9 +749,87 @@ CGContextRef MyCreateBitmapContext (int pixelsWide, int pixelsHigh) {
 ////------------------------------------------------------------------------------
 
 @interface EZAudioSpectralPlotWaveformLayer ()
+
 @property (nonatomic, assign) BOOL flag;
+@property (nonatomic, assign) int counter;
+
+
 @end
+
+
 @implementation EZAudioSpectralPlotWaveformLayer
+
+- (CGContextRef)imagContext {
+    if (!_imagContext) {
+        _imagContext = MyCreateBitmapContext(256, 10240);
+        self.data = CGBitmapContextGetData(_imagContext);
+        self.counter = 0;
+    }
+    return _imagContext;
+}
+
+
+- (void)drawInContext:(CGContextRef)ctx {
+    
+    CGImageRef  newImage = CGBitmapContextCreateImage(self.imagContext);
+    
+    CGContextRotateCTM(ctx, -M_PI/2);
+    CGContextScaleCTM(ctx, self.bounds.size.height/self.bounds.size.width, self.bounds.size.width/self.bounds.size.height);
+    CGContextTranslateCTM(ctx, -self.bounds.size.width, 0);
+    CGContextDrawImage(ctx, self.bounds, newImage);
+    
+    
+    CGImageRelease(newImage);
+    
+}
+
+- (void)dealloc {
+    NSLog(@"dealloc of MovingLayer is called.");
+    
+    
+    if (self.imagContext) {
+        CGContextRelease(self.imagContext);
+    }
+    if (self.data) {
+        free(self.data);
+    }
+    
+}
+
+//------------------------------------------------------------------------------
+CGContextRef MyCreateBitmapContext (int pixelsWide, int pixelsHigh) {
+    CGContextRef    context = NULL;
+    CGColorSpaceRef colorSpace;
+    void *          bitmapData;
+    int             bitmapByteCount;
+    int             bitmapBytesPerRow;
+    bitmapBytesPerRow   = (pixelsWide * 4);
+    bitmapByteCount     = (bitmapBytesPerRow * pixelsHigh);
+    colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+    bitmapData = calloc ( bitmapByteCount, 1);
+    if (bitmapData == NULL) {
+        fprintf (stderr, "Memory not allocated!");
+        return NULL;
+    }
+    context = CGBitmapContextCreate (bitmapData,
+                                     pixelsWide,
+                                     pixelsHigh,
+                                     8,
+                                     bitmapBytesPerRow,
+                                     colorSpace,
+                                     kCGImageAlphaPremultipliedLast);
+    if (context== NULL) {
+        free (bitmapData);
+        fprintf (stderr, "Context not created!");
+        return NULL;
+    }
+    CGColorSpaceRelease( colorSpace );
+    return context;
+}
+
+
+
+
 
 //- (id<CAAction>)actionForKey:(NSString *)event
 //{
@@ -738,40 +851,40 @@ CGContextRef MyCreateBitmapContext (int pixelsWide, int pixelsHigh) {
 //    return [super actionForKey:event];
 //}
 
-- (void)drawInContext:(CGContextRef)ctx {
-    NSLog(@"3-drawInContext:");
-    //NSLog(@"CGContext:%@",ctx);
-    
+//- (void)drawInContext:(CGContextRef)ctx {
+//    NSLog(@"3-drawInContext:");
+//    //NSLog(@"CGContext:%@",ctx);
+//    
+//
+//    CGContextSaveGState(ctx);
+//    CGFloat drawWidthRatio = 0.2;
+//    CGFloat drawHeightRatio = 1.0;
+//    CGFloat drawWidth = self.bounds.size.width * drawWidthRatio;
+//    CGFloat drawHeight = self.bounds.size.height * drawHeightRatio;
+//    CGRect drawArea = CGRectMake(self.bounds.size.width-drawWidth, 0, drawWidth, drawHeight);
+//    
+//    CGRect rect = self.bounds;
+//    CGContextTranslateCTM(ctx, rect.origin.x, rect.origin.y);
+//    CGContextTranslateCTM(ctx, 0, rect.size.height);
+//    CGContextScaleCTM(ctx, 1.0, -1.0);
+//    CGContextTranslateCTM(ctx, -rect.origin.x, -rect.origin.y);
+//    
+//    //NSImage * image =[NSImage imageNamed:@"test"];
+//    //CGImageRef cgImage = [self NSImageToCGImageRef:image];
+//    if (self.flag) {
+//        CGImageRef cgImage = [UIImage imageNamed:@"test.bmp"].CGImage;
+//        CGContextDrawImage(ctx, drawArea, cgImage);
+//    } else {
+//        CGImageRef cgImage = [UIImage imageNamed:@"test.jpg"].CGImage;
+//        CGContextDrawImage(ctx, drawArea, cgImage);
+//    }
+//    self.flag = !self.flag;
+//    
+//    
+//    
+//    //CGImageRelease(cgImage);
+//    CGContextRestoreGState(ctx);
 
-    CGContextSaveGState(ctx);
-    CGFloat drawWidthRatio = 0.2;
-    CGFloat drawHeightRatio = 1.0;
-    CGFloat drawWidth = self.bounds.size.width * drawWidthRatio;
-    CGFloat drawHeight = self.bounds.size.height * drawHeightRatio;
-    CGRect drawArea = CGRectMake(self.bounds.size.width-drawWidth, 0, drawWidth, drawHeight);
-    
-    CGRect rect = self.bounds;
-    CGContextTranslateCTM(ctx, rect.origin.x, rect.origin.y);
-    CGContextTranslateCTM(ctx, 0, rect.size.height);
-    CGContextScaleCTM(ctx, 1.0, -1.0);
-    CGContextTranslateCTM(ctx, -rect.origin.x, -rect.origin.y);
-    
-    //NSImage * image =[NSImage imageNamed:@"test"];
-    //CGImageRef cgImage = [self NSImageToCGImageRef:image];
-    if (self.flag) {
-        CGImageRef cgImage = [UIImage imageNamed:@"test.bmp"].CGImage;
-        CGContextDrawImage(ctx, drawArea, cgImage);
-    } else {
-        CGImageRef cgImage = [UIImage imageNamed:@"test.jpg"].CGImage;
-        CGContextDrawImage(ctx, drawArea, cgImage);
-    }
-    self.flag = !self.flag;
-    
-    
-    
-    //CGImageRelease(cgImage);
-    CGContextRestoreGState(ctx);
-    
 //    CGContextSaveGState(ctx);
 //    
 //    CGContextSetRGBFillColor(ctx, 135.0/255.0, 232.0/255.0, 84.0/255.0, 1);
@@ -793,7 +906,7 @@ CGContextRef MyCreateBitmapContext (int pixelsWide, int pixelsHigh) {
 //    CGContextDrawPath(ctx, kCGPathFillStroke);
 //    
 //    CGContextRestoreGState(ctx);
-}
+//}
 
 //- (CGImageRef)NSImageToCGImageRef:(NSImage*)image {
 //    NSData * imageData = [image TIFFRepresentation];
