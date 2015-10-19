@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "EZAudio.h"
 
-@interface SpectrogramViewController : UIViewController <EZMicrophoneDelegate>
+@interface SpectrogramViewController : UIViewController <EZMicrophoneDelegate, EZAudioSTFTDelegate>
 
 
 @end

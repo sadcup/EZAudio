@@ -61,7 +61,7 @@
 
 @interface EZAudioSTFT : NSObject <EZAudioFFTDelegate>
 
-- (instancetype)initWithBufferSize:(vDSP_Length)bufferSize sampleRate:(float)sampleRate delegate:(id<EZAudioSTFTDelegate>)delegate;
+- (instancetype)initWithBufferSize:(vDSP_Length)bufferSize fftSize:(UInt32)fftSize sampleRate:(float)sampleRate delegate:(id<EZAudioSTFTDelegate>)delegate;
 - (float *)computeSTFTWithBuffer:(float *)buffer withBufferSize:(UInt32)bufferSize;
 
 @property (nonatomic, strong) EZAudioFFT * fft;
@@ -71,5 +71,8 @@
 @property (nonatomic, assign) float *stftData;
 
 @property (nonatomic, assign) vDSP_Length bufferSize;
+@property (nonatomic, assign) UInt32 fftSize;
+
+@property (nonatomic, assign) float * fftSink;
 
 @end

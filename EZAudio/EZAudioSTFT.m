@@ -27,28 +27,23 @@
 
 @implementation EZAudioSTFT
 
-- (instancetype)initWithBufferSize:(vDSP_Length)bufferSize sampleRate:(float)sampleRate delegate:(id<EZAudioSTFTDelegate>)delegate {
+- (instancetype)initWithBufferSize:(vDSP_Length)bufferSize fftSize:(UInt32)fftSize sampleRate:(float)sampleRate delegate:(id<EZAudioSTFTDelegate>)delegate {
     self = [super init];
     if (self) {
-//        //
-//        // Create an instance of the EZAudioFFTRolling to keep a history of the incoming audio data and calculate the FFT.
-//        //
-//        self.fft = [EZAudioFFTRolling fftWithWindowSize:bufferSize
-//                                             sampleRate:sampleRate
-//                                               delegate:self];
         
         self.fft = [EZAudioFFT fftWithMaximumBufferSize:2048 sampleRate:0.0];
         self.bufferSize = bufferSize;
-        [self setup];
+        self.stftData = calloc(fftSize/2 * bufferSize, sizeof(float));
+        
+        self.fftSize = fftSize;
+        self.fftSink = calloc(fftSize, sizeof(float));
     }
     return self;
 }
 
-- (void)setup {
-    self.stftData = malloc(256 * 10241 * sizeof(float));
-}
 - (void)dealloc {
     free(self.stftData);
+    free(self.fftSink);
 }
 
 - (float *)computeSTFTWithBuffer:(float *)buffer
@@ -61,31 +56,49 @@
         return NULL;
     }
     
-    int fftSize = 256;
-    float sink[256];
-    int windowLength = 30;
+    int windowLength = 64;
     
+    float maxValue = CGFLOAT_MIN;
     
-    for (int i=0; i<bufferSize; i++) {
+    for (int i = 0; i < bufferSize; i++) {
         
-        for (int j=0; j<windowLength; j++) {
+        for (int j = 0; j < windowLength; j++) {
             if (i+j < bufferSize) {
-                sink[j] = buffer[i+j];
+                self.fftSink[j] = buffer[i+j];
             } else {
-                sink[j] = 0.0;
+                self.fftSink[j] = 0.0;
             }
         }
-        for (int j=windowLength; j<fftSize; j++) {
-            sink[j] = 0.0;
+        for (int j=windowLength; j<self.fftSize; j++) {
+            self.fftSink[j] = 0.0;
         }
         
-        float * fftData = [self.fft computeFFTWithBuffer:sink withBufferSize:fftSize];
+        float * fftData = [self.fft computeFFTWithBuffer:self.fftSink withBufferSize:self.fftSize];
         
-        for (int k=0; k<fftSize; k++) {
-            //self.stftData[k*bufferSize + i] = fftData[k];
-            self.stftData[i * fftSize + k] = fftData[k];
+        for (int k=0; k<self.fftSize/2; k++) {
+            float thisValue = fftData[k];//fabs(fftData[k]);
+            if ( thisValue > maxValue) {
+                maxValue = thisValue;
+            }
+            
+            self.stftData[i * self.fftSize/2 + k] = thisValue;
         }
         
+    }
+    
+    for (int i=0; i<bufferSize; i++) {
+        for (int j=0; j<self.fftSize/2; j++) {
+            self.stftData[i*self.fftSize/2 + j] /= maxValue;
+        }
+    }
+    
+    
+    //
+    // Notify delegate
+    //
+    if ([self.delegate respondsToSelector:@selector(stft:updatedWithSTFTData:bufferSize:)])
+    {
+        [self.delegate stft:self updatedWithSTFTData:self.stftData bufferSize:self.fftSize/2*self.bufferSize];
     }
     
     return self.stftData;

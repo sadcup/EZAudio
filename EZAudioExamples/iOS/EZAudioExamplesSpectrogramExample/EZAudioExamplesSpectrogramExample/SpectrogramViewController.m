@@ -40,11 +40,17 @@
     //
     self.audioPlot.backgroundColor = [UIColor colorWithRed: 0.569 green: 0.82 blue: 0.478 alpha: 1];
     self.audioPlot.color = [UIColor colorWithRed: 1.000 green: 1.000 blue: 1.000 alpha: 1];
-    self.audioPlot.plotType = EZPlotTypeBuffer;
+    self.audioPlot.plotType = EZPlotTypeRolling;
+    self.audioPlot.shouldMirror = YES;
+    self.audioPlot.shouldFill = YES;
+    self.audioPlot.rollingHistoryLength = 128;
+    //self.audioPlot.shouldOptimizeForRealtimePlot = YES;
     
-    //self.sepctrogramPlot.backgroundColor = [UIColor colorWithRed: 0.569 green: 0.82 blue: 0.478 alpha: 1];
-    //self.sepctrogramPlot.color = [UIColor colorWithRed: 1.000 green: 1.000 blue: 1.000 alpha: 1];
-    //self.sepctrogramPlot.plotType = EZPlotTypeBuffer;
+    self.sepctrogramPlot.backgroundColor = [UIColor colorWithRed: 0.569 green: 0.82 blue: 0.478 alpha: 1];
+    self.sepctrogramPlot.color = [UIColor colorWithRed: 1.000 green: 1.000 blue: 1.000 alpha: 1];
+    self.sepctrogramPlot.plotType = EZPlotTypeBuffer;
+    
+    //self.sepctrogramPlot.stft.delegate = self;
     
     //
     // Start the microphone
@@ -89,6 +95,15 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [weakSelf.sepctrogramPlot updateBuffer:buffer[0] withBufferSize:bufferSize];
     });
+    //[weakSelf.sepctrogramPlot.stft computeSTFTWithBuffer:buffer[0] withBufferSize:bufferSize];
 }
+
+//- (void)stft:(EZAudioSTFT *)stft updatedWithSTFTData:(float *)stftData bufferSize:(vDSP_Length)bufferSize {
+//    __weak typeof(self) _weakSelf = self;
+//    dispatch_async(dispatch_get_main_queue(), ^ {
+//        [_weakSelf.sepctrogramPlot updateBuffer:stftData withBufferSize:bufferSize];
+//    });
+//    
+//}
 
 @end

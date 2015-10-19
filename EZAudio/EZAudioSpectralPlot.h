@@ -68,6 +68,12 @@ FOUNDATION_EXPORT UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength;
 @interface EZAudioSpectralPlotWaveformLayer : CALayer
 @property (nonatomic, assign) CGContextRef imagContext;
 @property (nonatomic, assign) UInt32 * data;
+@property (nonatomic, assign) UInt32 rollingBufferLength;
+@property (nonatomic, assign) UInt32  width;
+@property (nonatomic, assign) UInt32  height;
+
+- (instancetype)initWithWidth:(UInt32)width height:(UInt32)height;
+
 @end
 
 //------------------------------------------------------------------------------
