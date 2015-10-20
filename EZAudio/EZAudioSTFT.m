@@ -38,7 +38,7 @@
         self.fftSize = fftSize;
         self.fftSink = calloc(fftSize, sizeof(float));
         
-        self.windowsLength = 27;
+        self.windowsLength = 27 * 2;
         self.windows = gausswin(self.windowsLength, 2.5);
         self.localBuffer = initLocalBuffer(self.windowsLength);
 

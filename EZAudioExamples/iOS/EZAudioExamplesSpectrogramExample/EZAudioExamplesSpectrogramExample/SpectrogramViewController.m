@@ -45,6 +45,7 @@
     self.audioPlot.shouldFill = YES;
     self.audioPlot.rollingHistoryLength = 128;
     //self.audioPlot.shouldOptimizeForRealtimePlot = YES;
+    //self.audioPlot.shouldOptimizeForRealtimePlot = NO;
     
     self.sepctrogramPlot.backgroundColor = [UIColor colorWithRed: 0.569 green: 0.82 blue: 0.478 alpha: 1];
     self.sepctrogramPlot.color = [UIColor colorWithRed: 1.000 green: 1.000 blue: 1.000 alpha: 1];

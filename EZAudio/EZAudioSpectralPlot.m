@@ -127,6 +127,7 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
 {
 
     self.shouldOptimizeForRealtimePlot = YES;
+    //self.shouldOptimizeForRealtimePlot = NO;
     
     self.gain = 1.0;
     self.plotType = EZPlotTypeBuffer;
@@ -141,7 +142,7 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
 
     self.spectrogramLayer.opaque = YES;
     
-    self.spectrogramLayer.rollingBufferLength = 128 * 512;
+    self.spectrogramLayer.rollingBufferLength = 32 * 1024;
     
     NSLog(@"%@", self.spectrogramLayer.imagContext);
     
@@ -248,6 +249,7 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
     
     //float * stftData = self.stft.stftData;
 
+    
     UInt32 updateLength =  (UInt32)((float)self.pointCount / self.spectrogramLayer.rollingBufferLength * self.spectrogramLayer.width);
     
     UInt32 * toAddress = self.spectrogramLayer.data;
@@ -264,6 +266,8 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
     int localWidth = timeStep < 1 ? 1 : timeStep;
     int localHeight = freqStep < 1 ? 1 : freqStep;
     
+    NSLog(@"updateLength: %u", (unsigned int)updateLength);
+    
     for (int i = 0; i<updateLength; i++) {
         for (int j=0; j<self.spectrogramLayer.height; j++) {
             // find the local matrix and extract it into one point.
@@ -274,12 +278,12 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
             
             mean = stftData[originx*self.stft.fftSize/2+originy];
             
-//            for (int ii = 0; ii<localWidth; ii++) {
-//                for (int jj = 0; jj<localHeight; jj++) {
-//                    mean += stftData[(originx+ii)*self.stft.fftSize/2 + (originy+jj)];
-//                }
-//            }
-//            mean /= (localWidth * localHeight);
+            for (int ii = 0; ii<localWidth; ii++) {
+                for (int jj = 0; jj<localHeight; jj++) {
+                    mean += stftData[(originx+ii)*self.stft.fftSize/2 + (originy+jj)];
+                }
+            }
+            mean /= (localWidth * localHeight);
             
             
             
@@ -369,7 +373,7 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
 
 - (int)initialPointCount
 {
-    return 100;
+    return 1024;
 }
 
 //------------------------------------------------------------------------------
