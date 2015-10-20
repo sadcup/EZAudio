@@ -30,8 +30,6 @@
 #pragma mark - Constants
 //------------------------------------------------------------------------------
 
-UInt32 const kEZAudioSpectralPlotMaxHistoryBufferLength = 8192;
-UInt32 const kEZAudioSpectralPlotDefaultHistoryBufferLength = 512;
 UInt32 const EZAudioSpectralPlotDefaultHistoryBufferLength = 512;
 UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
 
@@ -41,11 +39,9 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
 
 @interface EZAudioSpectralPlot () <EZAudioDisplayLinkDelegate>
 @property (nonatomic, strong) EZAudioDisplayLink *displayLink;
-//@property (nonatomic, assign) EZPlotHistoryInfo  *historyInfo;
+
 @property (nonatomic, assign) CGPoint            *points;
 @property (nonatomic, assign) UInt32              pointCount;
-
-@property (nonatomic, assign) UIImage * image;
 
 @end
 
@@ -131,6 +127,7 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
 {
 
     self.shouldOptimizeForRealtimePlot = YES;
+    
     self.gain = 1.0;
     self.plotType = EZPlotTypeBuffer;
     self.shouldMirror = NO;
@@ -139,7 +136,7 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
     // Setup history window
     [self resetHistoryBuffers];
     
-    self.spectrogramLayer = [[EZAudioSpectralPlotWaveformLayer alloc] initWithWidth:512 height:128];
+    self.spectrogramLayer = [[EZAudioSpectralPlotWaveformLayer alloc] initWithWidth:512 height:512];
     self.spectrogramLayer.frame = self.bounds;
 
     self.spectrogramLayer.opaque = YES;
@@ -148,28 +145,16 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
     
     NSLog(@"%@", self.spectrogramLayer.imagContext);
     
-#if TARGET_OS_IPHONE
-    self.color = [UIColor colorWithHue:0 saturation:1.0 brightness:1.0 alpha:1.0]; 
-#elif TARGET_OS_MAC
-    self.color = [NSColor colorWithCalibratedHue:0 saturation:1.0 brightness:1.0 alpha:1.0];
-    self.wantsLayer = YES;
-    //self.wantsUpdateLayer = YES;
-    
-    self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
-#endif
     self.backgroundColor = nil;
     
     [self.layer insertSublayer:self.spectrogramLayer atIndex:0];
     
-    //
-    // Allow subclass to initialize plot
-    //
     [self setupPlot];
     
     self.points = calloc(EZAudioSpectralPlotDefaultMaxHistoryBufferLength, sizeof(CGPoint));
     self.pointCount = [self initialPointCount];
     
-    self.stft = [[EZAudioSTFT alloc] initWithBufferSize:1024 fftSize:256 sampleRate:0.0 delegate:self];
+    self.stft = [[EZAudioSTFT alloc] initWithBufferSize:1024 fftSize:128 sampleRate:0.0 delegate:self];
 
     
     [self redraw];
@@ -193,24 +178,6 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
 //------------------------------------------------------------------------------
 #pragma mark - Setters
 //------------------------------------------------------------------------------
-
-- (void)setBackgroundColor:(id)backgroundColor
-{
-    [super setBackgroundColor:backgroundColor];
-    self.layer.backgroundColor = [backgroundColor CGColor];
-}
-
-//------------------------------------------------------------------------------
-
-- (void)setColor:(id)color
-{
-    [super setColor:color];
-    //self.waveformLayer.strokeColor = [color CGColor];
-    if (self.shouldFill)
-    {
-        //self.waveformLayer.fillColor = [color CGColor];
-    }
-}
 
 //------------------------------------------------------------------------------
 

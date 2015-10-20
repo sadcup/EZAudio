@@ -34,20 +34,6 @@
 //------------------------------------------------------------------------------
 
 /**
- The default value used for the maximum rolling history buffer length of any EZAudioSpectralPlot.
- @deprecated This constant is deprecated starting in version 0.2.0.
- @note Please use EZAudioSpectralPlotDefaultMaxHistoryBufferLength instead.
- */
-FOUNDATION_EXPORT UInt32 const kEZAudioSpectralPlotMaxHistoryBufferLength __attribute__((deprecated));
-
-/**
- The default value used for the default rolling history buffer length of any EZAudioSpectralPlot.
- @deprecated This constant is deprecated starting in version 0.2.0.
- @note Please use EZAudioSpectralPlotDefaultHistoryBufferLength instead.
- */
-FOUNDATION_EXPORT UInt32 const kEZAudioSpectralPlotDefaultHistoryBufferLength __attribute__((deprecated));
-
-/**
  The default value used for the default rolling history buffer length of any EZAudioSpectralPlot.
  */
 FOUNDATION_EXPORT UInt32 const EZAudioSpectralPlotDefaultHistoryBufferLength;
@@ -80,19 +66,6 @@ FOUNDATION_EXPORT UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength;
 #pragma mark - EZAudioSpectralPlot
 //------------------------------------------------------------------------------
 
-/**
- `EZAudioSpectralPlot`, a subclass of `EZPlot`, is a cross-platform (iOS and OSX) class that plots an audio waveform using Core Graphics. 
- 
- The caller provides updates a constant stream of updated audio data in the `updateBuffer:withBufferSize:` function, which in turn will be plotted in one of the plot types:
-    
- * Buffer (`EZPlotTypeBuffer`) - A plot that only consists of the current buffer and buffer size from the last call to `updateBuffer:withBufferSize:`. This looks similar to the default openFrameworks input audio example.
- * Rolling (`EZPlotTypeRolling`) - A plot that consists of a rolling history of values averaged from each buffer. This is the traditional waveform look.
- 
- #Parent Methods and Properties#
- 
- See EZPlot for full API methods and properties (colors, plot type, update function)
- 
- */
 @interface EZAudioSpectralPlot : EZPlot <EZAudioSTFTDelegate>
 
 /**
@@ -106,25 +79,6 @@ FOUNDATION_EXPORT UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength;
  An EZAudioSpectralPlotWaveformLayer that is used to render the actual waveform. By switching the drawing code to Core Animation layers in version 0.2.0 most work, specifically the compositing step, is now done on the GPU. Hence, multiple EZAudioSpectralPlot instances can be used simultaneously with very low CPU overhead so these are now practical for table and collection views.
  */
 @property (nonatomic, strong) EZAudioSpectralPlotWaveformLayer *spectrogramLayer;
-
-
-
-//------------------------------------------------------------------------------
-#pragma mark - Adjust Resolution
-//------------------------------------------------------------------------------
-
-///-----------------------------------------------------------
-/// @name Adjusting The Resolution
-///-----------------------------------------------------------
-
-
-//------------------------------------------------------------------------------
-#pragma mark - Subclass Methods
-//------------------------------------------------------------------------------
-
-///-----------------------------------------------------------
-/// @name Subclass Methods
-///-----------------------------------------------------------
 
 /**
  Provides the default length of the rolling history buffer when the plot is initialized. Default is `EZAudioSpectralPlotDefaultHistoryBufferLength` constant.
