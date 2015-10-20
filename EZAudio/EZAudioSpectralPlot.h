@@ -103,13 +103,6 @@ FOUNDATION_EXPORT UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength;
 //------------------------------------------------------------------------------
 
 /**
- A BOOL indicating whether the plot should center itself vertically.
- */
-@property (nonatomic, assign) BOOL shouldCenterYAxis;
-
-//------------------------------------------------------------------------------
-
-/**
  An EZAudioSpectralPlotWaveformLayer that is used to render the actual waveform. By switching the drawing code to Core Animation layers in version 0.2.0 most work, specifically the compositing step, is now done on the GPU. Hence, multiple EZAudioSpectralPlot instances can be used simultaneously with very low CPU overhead so these are now practical for table and collection views.
  */
 @property (nonatomic, strong) EZAudioSpectralPlotWaveformLayer *spectrogramLayer;
@@ -124,20 +117,6 @@ FOUNDATION_EXPORT UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength;
 /// @name Adjusting The Resolution
 ///-----------------------------------------------------------
 
-/**
- Sets the length of the rolling history buffer (i.e. the number of points in the rolling plot's buffer). Can grow or shrink the display up to the maximum size specified by the `maximumRollingHistoryLength` method. Will return the actual set value, which will be either the given value if smaller than the `maximumRollingHistoryLength` or `maximumRollingHistoryLength` if a larger value is attempted to be set.
- @param  historyLength The new length of the rolling history buffer.
- @return The new value equal to the historyLength or the `maximumRollingHistoryLength`.
- */
--(int)setRollingHistoryLength:(int)historyLength;
-
-//------------------------------------------------------------------------------
-
-/**
- Provides the length of the rolling history buffer (i.e. the number of points in the rolling plot's buffer).
- *  @return An int representing the length of the rolling history buffer
- */
--(int)rollingHistoryLength;
 
 //------------------------------------------------------------------------------
 #pragma mark - Subclass Methods
@@ -146,19 +125,6 @@ FOUNDATION_EXPORT UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength;
 ///-----------------------------------------------------------
 /// @name Subclass Methods
 ///-----------------------------------------------------------
-
-/**
- Main method that handles converting the points created from the `updatedBuffer:withBufferSize:` method into a CGPathRef to store in the `waveformLayer`. In this method you can create any path you'd like using the point array (for instance, maybe mapping the points to a circle instead of the standard 2D plane).
- @param points     An array of CGPoint structures, with the x values ranging from 0 - (pointCount - 1) and y values containing the last audio data's buffer.
- @param pointCount A UInt32 of the length of the point array.
- @param rect       An EZRect (CGRect on iOS or NSRect on OSX) that the path should be created relative to.
- @return A CGPathRef that is the path you'd like to store on the `waveformLayer` to visualize the audio data.
- */
-- (CGPathRef)createPathWithPoints:(CGPoint *)points
-                       pointCount:(UInt32)pointCount
-                           inRect:(EZRect)rect;
-
-//------------------------------------------------------------------------------
 
 /**
  Provides the default length of the rolling history buffer when the plot is initialized. Default is `EZAudioSpectralPlotDefaultHistoryBufferLength` constant.

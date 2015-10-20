@@ -54,19 +54,13 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
 //------------------------------------------------------------------------------
 
 @implementation EZAudioSpectralPlot
-- (UIImage *)image {
-    if (!_image) {
-        _image = [UIImage imageNamed:@"test.bmp"];
-    }
-    return _image;
-}
+
 //------------------------------------------------------------------------------
 #pragma mark - Dealloc
 //------------------------------------------------------------------------------
 
 - (void)dealloc
 {
-    //[EZAudioUtilities freeHistoryInfo:self.historyInfo];
     free(self.points);
 }
 
@@ -117,8 +111,6 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
     
     self.spectrogramLayer.frame = self.bounds;
     
-    //self.spectrogramLayer.frame = CGRectMake(0, 0, self.bounds.size.width/2, self.bounds.size.height/2);
-    
     
     [self redraw];
     [CATransaction commit];
@@ -137,7 +129,7 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
 
 - (void)initPlot
 {
-    self.shouldCenterYAxis = YES;
+
     self.shouldOptimizeForRealtimePlot = YES;
     self.gain = 1.0;
     self.plotType = EZPlotTypeBuffer;
@@ -147,12 +139,9 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
     // Setup history window
     [self resetHistoryBuffers];
     
-    //self.spectrogramLayer = [EZAudioSpectralPlotWaveformLayer layer];
     self.spectrogramLayer = [[EZAudioSpectralPlotWaveformLayer alloc] initWithWidth:512 height:128];
     self.spectrogramLayer.frame = self.bounds;
-    //self.waveformLayer.lineWidth = 1.0f;
-    //self.waveformLayer.fillColor = nil;
-    //self.spectrogramLayer.backgroundColor = nil;
+
     self.spectrogramLayer.opaque = YES;
     
     self.spectrogramLayer.rollingBufferLength = 128 * 512;
@@ -190,9 +179,7 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
 
 - (void)setupPlot
 {
-    //
-    // Override in subclass
-    //
+
 }
 
 //------------------------------------------------------------------------------
@@ -201,16 +188,6 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
 
 - (void)resetHistoryBuffers
 {
-    //
-    // Clear any existing data
-    //
-//    if (self.historyInfo)
-//    {
-//        [EZAudioUtilities freeHistoryInfo:self.historyInfo];
-//    }
-//    
-//    self.historyInfo = [EZAudioUtilities historyInfoWithDefaultLength:[self defaultRollingHistoryLength]
-//                                                        maximumLength:[self maximumRollingHistoryLength]];
 }
 
 //------------------------------------------------------------------------------
@@ -257,7 +234,6 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
 - (void)setShouldFill:(BOOL)shouldFill
 {
     [super setShouldFill:shouldFill];
-    //self.waveformLayer.fillColor = shouldFill ? [self.color CGColor] : nil;
 }
 
 //------------------------------------------------------------------------------
@@ -272,8 +248,6 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
         float data[self.pointCount];
         memset(data, 0, self.pointCount * sizeof(float));
         [self setSampleData:data length:self.pointCount];
-        
-        
         [self redraw];
     }
 }
@@ -374,10 +348,6 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
 
 - (void)updateBuffer:(float *)buffer withBufferSize:(UInt32)bufferSize
 {
-//    // append the buffer to the history
-//    [EZAudioUtilities appendBufferRMS:buffer
-//                       withBufferSize:bufferSize
-//                        toHistoryInfo:self.historyInfo];
     
     // copy samples
     switch (self.plotType)
@@ -388,8 +358,6 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
             break;
         case EZPlotTypeRolling:
             
-//            [self setSampleData:self.historyInfo->buffer
-//                         length:self.historyInfo->bufferSize];
             break;
         default:
             break;
@@ -420,19 +388,6 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
 //------------------------------------------------------------------------------
 #pragma mark - Adjusting History Resolution
 //------------------------------------------------------------------------------
-//
-//- (int)rollingHistoryLength
-//{
-//    return self.historyInfo->bufferSize;
-//}
-
-//------------------------------------------------------------------------------
-
-//- (int)setRollingHistoryLength:(int)historyLength
-//{
-//    self.historyInfo->bufferSize = MIN(EZAudioSpectralPlotDefaultMaxHistoryBufferLength, historyLength);
-//    return self.historyInfo->bufferSize;
-//}
 
 //------------------------------------------------------------------------------
 #pragma mark - Subclass
@@ -481,29 +436,6 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
 }
 
 
-//- (void)drawRect:(NSRect)dirtyRect {
-//    CGContextRef myContext = [[NSGraphicsContext currentContext] graphicsPort];
-//    CGRect myBoundingBox;// 1
-//    int myWidth = 500;
-//    int myHeight = 200;
-//    myBoundingBox = CGRectMake (0, 0, myWidth, myHeight);// 2
-//    CGContextRef myBitmapContext = MyCreateBitmapContext (500, 600);// 3
-//
-//    // ********** Your drawing code here ********** // 4
-//    CGContextSetRGBFillColor (myBitmapContext, 1, 0, 0, 1);
-//    CGContextFillRect (myBitmapContext, CGRectMake (0, 0, 200, 100 ));
-//    CGContextSetRGBFillColor (myBitmapContext, 0, 0, 1, .5);
-//    CGContextFillRect (myBitmapContext, CGRectMake (0, 0, 100, 200 ));
-//    CGImageRef  myImage = CGBitmapContextCreateImage (myBitmapContext);// 5
-//    CGContextDrawImage(myContext, myBoundingBox, myImage);// 6
-//    char *bitmapData = CGBitmapContextGetData(myBitmapContext); // 7
-//    CGContextRelease (myBitmapContext);// 8
-//    if (bitmapData) free(bitmapData); // 9
-//    CGImageRelease(myImage);// 10
-//}
-
-
-
 @end
 
 ////------------------------------------------------------------------------------
@@ -521,15 +453,6 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
 
 @implementation EZAudioSpectralPlotWaveformLayer
 
-//- (CGContextRef)imagContext {
-//    if (!_imagContext) {
-//        _imagContext = MyCreateBitmapContext(256, 1920);
-//        self.data = CGBitmapContextGetData(_imagContext);
-//        self.counter = 0;
-//    }
-//    return _imagContext;
-//}
-
 - (instancetype)initWithWidth:(UInt32)width height:(UInt32)height {
     self = [super init];
     if (self) {
@@ -545,15 +468,6 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
 - (void)drawInContext:(CGContextRef)ctx {
     
     CGImageRef  newImage = CGBitmapContextCreateImage(self.imagContext);
-    
-//    CGContextRotateCTM(ctx, -M_PI/2);
-//    CGContextScaleCTM(ctx, self.bounds.size.height/self.bounds.size.width, self.bounds.size.width/self.bounds.size.height);
-//    CGContextTranslateCTM(ctx, -self.bounds.size.width, 0);
-
-    
-//    CGContextRotateCTM(ctx, M_PI/2);
-//    CGContextScaleCTM(ctx, self.bounds.size.height/self.bounds.size.width, self.bounds.size.width/self.bounds.size.height);
-//    CGContextTranslateCTM(ctx, self.bounds.size.width, 0);
     
     CGContextRotateCTM(ctx, M_PI/2);
     CGContextScaleCTM(ctx, self.bounds.size.height/self.bounds.size.width, self.bounds.size.width/self.bounds.size.height);
@@ -608,98 +522,5 @@ CGContextRef MyCreateBitmapContext (int pixelsWide, int pixelsHigh) {
     CGColorSpaceRelease( colorSpace );
     return context;
 }
-
-
-
-
-
-//- (id<CAAction>)actionForKey:(NSString *)event
-//{
-//    if ([event isEqualToString:@"path"])
-//    {
-//        if ([CATransaction disableActions])
-//        {
-//            return nil;
-//        }
-//        else
-//        {
-//            CABasicAnimation *animation = [CABasicAnimation animation];
-//            animation.timingFunction = [CATransaction animationTimingFunction];
-//            animation.duration = [CATransaction animationDuration];
-//            return animation;
-//        }
-//        return nil;
-//    }
-//    return [super actionForKey:event];
-//}
-
-//- (void)drawInContext:(CGContextRef)ctx {
-//    NSLog(@"3-drawInContext:");
-//    //NSLog(@"CGContext:%@",ctx);
-//    
-//
-//    CGContextSaveGState(ctx);
-//    CGFloat drawWidthRatio = 0.2;
-//    CGFloat drawHeightRatio = 1.0;
-//    CGFloat drawWidth = self.bounds.size.width * drawWidthRatio;
-//    CGFloat drawHeight = self.bounds.size.height * drawHeightRatio;
-//    CGRect drawArea = CGRectMake(self.bounds.size.width-drawWidth, 0, drawWidth, drawHeight);
-//    
-//    CGRect rect = self.bounds;
-//    CGContextTranslateCTM(ctx, rect.origin.x, rect.origin.y);
-//    CGContextTranslateCTM(ctx, 0, rect.size.height);
-//    CGContextScaleCTM(ctx, 1.0, -1.0);
-//    CGContextTranslateCTM(ctx, -rect.origin.x, -rect.origin.y);
-//    
-//    //NSImage * image =[NSImage imageNamed:@"test"];
-//    //CGImageRef cgImage = [self NSImageToCGImageRef:image];
-//    if (self.flag) {
-//        CGImageRef cgImage = [UIImage imageNamed:@"test.bmp"].CGImage;
-//        CGContextDrawImage(ctx, drawArea, cgImage);
-//    } else {
-//        CGImageRef cgImage = [UIImage imageNamed:@"test.jpg"].CGImage;
-//        CGContextDrawImage(ctx, drawArea, cgImage);
-//    }
-//    self.flag = !self.flag;
-//    
-//    
-//    
-//    //CGImageRelease(cgImage);
-//    CGContextRestoreGState(ctx);
-
-//    CGContextSaveGState(ctx);
-//    
-//    CGContextSetRGBFillColor(ctx, 135.0/255.0, 232.0/255.0, 84.0/255.0, 1);
-//    CGContextSetRGBStrokeColor(ctx, 135.0/255.0, 232.0/255.0, 84.0/255.0, 1);
-//    CGContextMoveToPoint(ctx, 94.5, 33.5);
-//    
-//    //// Star Drawing
-//    CGContextAddLineToPoint(ctx,104.02, 47.39);
-//    CGContextAddLineToPoint(ctx,120.18, 52.16);
-//    CGContextAddLineToPoint(ctx,109.91, 65.51);
-//    CGContextAddLineToPoint(ctx,110.37, 82.34);
-//    CGContextAddLineToPoint(ctx,94.5, 76.7);
-//    CGContextAddLineToPoint(ctx,78.63, 82.34);
-//    CGContextAddLineToPoint(ctx,79.09, 65.51);
-//    CGContextAddLineToPoint(ctx,68.82, 52.16);
-//    CGContextAddLineToPoint(ctx,84.98, 47.39);
-//    CGContextClosePath(ctx);
-//    
-//    CGContextDrawPath(ctx, kCGPathFillStroke);
-//    
-//    CGContextRestoreGState(ctx);
-//}
-
-//- (CGImageRef)NSImageToCGImageRef:(NSImage*)image {
-//    NSData * imageData = [image TIFFRepresentation];
-//    CGImageRef imageRef;
-//    if(imageData) {
-//        CGImageSourceRef imageSource = CGImageSourceCreateWithData((CFDataRef)imageData,  NULL);
-//        imageRef = CGImageSourceCreateImageAtIndex(imageSource, 0, NULL);
-//    }
-//    return imageRef;
-//}
-
-
 
 @end
