@@ -62,17 +62,62 @@
 @interface EZAudioSTFT : NSObject <EZAudioFFTDelegate>
 
 - (instancetype)initWithBufferSize:(vDSP_Length)bufferSize fftSize:(UInt32)fftSize sampleRate:(float)sampleRate delegate:(id<EZAudioSTFTDelegate>)delegate;
+
+/**
+ *  STFT Calculation
+ *
+ *  @param buffer     The input data
+ *  @param bufferSize The length of input data
+ *
+ *  @return The STFT result, a float matrix
+ */
 - (float *)computeSTFTWithBuffer:(float *)buffer withBufferSize:(UInt32)bufferSize;
 
+/**
+ *  A build-in FFT which is used to calculate STFT
+ */
 @property (nonatomic, strong) EZAudioFFT * fft;
 
+/**
+ *  STFT delegate
+ */
 @property (weak, nonatomic) id<EZAudioSTFTDelegate> delegate;
 
+
+/**
+ *  STFT windows
+ */
+@property (nonatomic, assign) float * windows;
+
+/**
+ *  STFT windows length
+ */
+@property (nonatomic, assign) UInt32 windowsLength;
+
+/**
+ *  STFT local buffer stores the data of the last packet with the lengthof windowsLength
+ *  (A windowsLength delay exists in STFT, because there is not enough data to calculate the last windowsLength data's STFT)
+ */
+@property (nonatomic, assign) float * localBuffer;
+
+/**
+ *  STFT results
+ */
 @property (nonatomic, assign) float *stftData;
 
+/**
+ *  The length of the current input data
+ */
 @property (nonatomic, assign) vDSP_Length bufferSize;
+
+/**
+ *  The fft size
+ */
 @property (nonatomic, assign) UInt32 fftSize;
 
+/**
+ *  The fft workspace
+ */
 @property (nonatomic, assign) float * fftSink;
 
 @end

@@ -37,6 +37,11 @@
         
         self.fftSize = fftSize;
         self.fftSink = calloc(fftSize, sizeof(float));
+        
+        self.windowsLength = 27;
+        self.windows = gausswin(self.windowsLength, 2.5);
+        self.localBuffer = initLocalBuffer(self.windowsLength);
+
     }
     return self;
 }
@@ -44,44 +49,67 @@
 - (void)dealloc {
     free(self.stftData);
     free(self.fftSink);
+    free(self.windows);
+    free(self.localBuffer);
+}
+
+float * gausswin(int N, float alpha) {
+    float stdev = (float)(N-1)/(2*alpha);
+    float offset = -(float)(N-1)/2;
+    float * win = calloc(N, sizeof(float));
+    for (int i=0; i<N; i++) {
+        float coef = (i+offset) / stdev;
+        win[i] = expf(-0.5 * powf(coef, 2.0));
+    }
+    return win;
+}
+
+float * initLocalBuffer(int len) {
+    float * buffer = calloc(len, sizeof(float));
+    for (int i=0; i<len; i++) {
+        buffer[i] = 0.0;
+    }
+    return buffer;
 }
 
 - (float *)computeSTFTWithBuffer:(float *)buffer
-                  withBufferSize:(UInt32)bufferSize
-{
-    //NSLog(@"%u", (unsigned int)bufferSize);
+                  withBufferSize:(UInt32)bufferSize {
     
     if (buffer == NULL)
     {
         return NULL;
     }
     
-    int windowLength = 64;
+    float * pool = calloc(bufferSize + self.windowsLength, sizeof(float));
+
+    memcpy(pool, self.localBuffer, self.windowsLength*sizeof(float));
+    memcpy(pool+self.windowsLength, buffer, bufferSize*sizeof(float));
+    memcpy(self.localBuffer, buffer+bufferSize-self.windowsLength, self.windowsLength*sizeof(float));
     
     float maxValue = CGFLOAT_MIN;
     
     for (int i = 0; i < bufferSize; i++) {
-        
-        for (int j = 0; j < windowLength; j++) {
+
+        for (int j = 0; j < self.windowsLength; j++) {
             if (i+j < bufferSize) {
-                self.fftSink[j] = buffer[i+j];
+                self.fftSink[j] = pool[i+j] * self.windows[j];
             } else {
                 self.fftSink[j] = 0.0;
             }
         }
-        for (int j=windowLength; j<self.fftSize; j++) {
-            self.fftSink[j] = 0.0;
-        }
         
         float * fftData = [self.fft computeFFTWithBuffer:self.fftSink withBufferSize:self.fftSize];
+        int fftDataLength = self.fftSize/2;
         
-        for (int k=0; k<self.fftSize/2; k++) {
-            float thisValue = fftData[k];//fabs(fftData[k]);
+        for (int k=0; k<fftDataLength; k++) {
+            
+            float thisValue = powf(fftData[k], 1.0);//fabs(fftData[k]);
+            
             if ( thisValue > maxValue) {
                 maxValue = thisValue;
             }
             
-            self.stftData[i * self.fftSize/2 + k] = thisValue;
+            self.stftData[i * fftDataLength + k] = thisValue;
         }
         
     }
@@ -100,6 +128,11 @@
     {
         [self.delegate stft:self updatedWithSTFTData:self.stftData bufferSize:self.fftSize/2*self.bufferSize];
     }
+    
+    /**
+     *  Free the temporary memory
+     */
+    free(pool);
     
     return self.stftData;
 }
