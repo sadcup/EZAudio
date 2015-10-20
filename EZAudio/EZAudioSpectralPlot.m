@@ -41,7 +41,7 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
 
 @interface EZAudioSpectralPlot () <EZAudioDisplayLinkDelegate>
 @property (nonatomic, strong) EZAudioDisplayLink *displayLink;
-@property (nonatomic, assign) EZPlotHistoryInfo  *historyInfo;
+//@property (nonatomic, assign) EZPlotHistoryInfo  *historyInfo;
 @property (nonatomic, assign) CGPoint            *points;
 @property (nonatomic, assign) UInt32              pointCount;
 
@@ -66,7 +66,7 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
 
 - (void)dealloc
 {
-    [EZAudioUtilities freeHistoryInfo:self.historyInfo];
+    //[EZAudioUtilities freeHistoryInfo:self.historyInfo];
     free(self.points);
 }
 
@@ -204,13 +204,13 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
     //
     // Clear any existing data
     //
-    if (self.historyInfo)
-    {
-        [EZAudioUtilities freeHistoryInfo:self.historyInfo];
-    }
-    
-    self.historyInfo = [EZAudioUtilities historyInfoWithDefaultLength:[self defaultRollingHistoryLength]
-                                                        maximumLength:[self maximumRollingHistoryLength]];
+//    if (self.historyInfo)
+//    {
+//        [EZAudioUtilities freeHistoryInfo:self.historyInfo];
+//    }
+//    
+//    self.historyInfo = [EZAudioUtilities historyInfoWithDefaultLength:[self defaultRollingHistoryLength]
+//                                                        maximumLength:[self maximumRollingHistoryLength]];
 }
 
 //------------------------------------------------------------------------------
@@ -374,10 +374,10 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
 
 - (void)updateBuffer:(float *)buffer withBufferSize:(UInt32)bufferSize
 {
-    // append the buffer to the history
-    [EZAudioUtilities appendBufferRMS:buffer
-                       withBufferSize:bufferSize
-                        toHistoryInfo:self.historyInfo];
+//    // append the buffer to the history
+//    [EZAudioUtilities appendBufferRMS:buffer
+//                       withBufferSize:bufferSize
+//                        toHistoryInfo:self.historyInfo];
     
     // copy samples
     switch (self.plotType)
@@ -388,8 +388,8 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
             break;
         case EZPlotTypeRolling:
             
-            [self setSampleData:self.historyInfo->buffer
-                         length:self.historyInfo->bufferSize];
+//            [self setSampleData:self.historyInfo->buffer
+//                         length:self.historyInfo->bufferSize];
             break;
         default:
             break;
@@ -420,19 +420,19 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
 //------------------------------------------------------------------------------
 #pragma mark - Adjusting History Resolution
 //------------------------------------------------------------------------------
-
-- (int)rollingHistoryLength
-{
-    return self.historyInfo->bufferSize;
-}
+//
+//- (int)rollingHistoryLength
+//{
+//    return self.historyInfo->bufferSize;
+//}
 
 //------------------------------------------------------------------------------
 
-- (int)setRollingHistoryLength:(int)historyLength
-{
-    self.historyInfo->bufferSize = MIN(EZAudioSpectralPlotDefaultMaxHistoryBufferLength, historyLength);
-    return self.historyInfo->bufferSize;
-}
+//- (int)setRollingHistoryLength:(int)historyLength
+//{
+//    self.historyInfo->bufferSize = MIN(EZAudioSpectralPlotDefaultMaxHistoryBufferLength, historyLength);
+//    return self.historyInfo->bufferSize;
+//}
 
 //------------------------------------------------------------------------------
 #pragma mark - Subclass
