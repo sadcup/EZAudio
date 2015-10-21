@@ -167,6 +167,8 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
     self.frameCounter = 0;
     
     //[self redraw];
+    
+    [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(redraw) userInfo:nil repeats:YES];
 }
 
 //------------------------------------------------------------------------------
@@ -414,7 +416,7 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
     self.counter++;
     self.counter %= WIDTH/width;
     
-    [self redraw];
+    //[self redraw];
     
     // update drawing
     //if (!self.shouldOptimizeForRealtimePlot)
