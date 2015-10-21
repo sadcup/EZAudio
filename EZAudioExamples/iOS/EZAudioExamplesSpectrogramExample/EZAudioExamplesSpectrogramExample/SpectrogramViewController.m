@@ -11,6 +11,7 @@
 @interface SpectrogramViewController ()
 @property (weak, nonatomic) IBOutlet EZAudioPlot *audioPlot;
 @property (weak, nonatomic) IBOutlet EZAudioSpectralPlot *sepctrogramPlot;
+@property (strong, nonatomic) EZAudioSTFT *stft;
 
 @end
 
@@ -45,13 +46,20 @@
     self.audioPlot.shouldFill = YES;
     self.audioPlot.rollingHistoryLength = 128;
     //self.audioPlot.shouldOptimizeForRealtimePlot = YES;
-    //self.audioPlot.shouldOptimizeForRealtimePlot = NO;
+    
+    
+    
+    self.stft = [[EZAudioSTFT alloc] initWithBufferSize:1024 fftSize:256 sampleRate:0.0 delegate:self];
     
     self.sepctrogramPlot.backgroundColor = [UIColor colorWithRed: 0.569 green: 0.82 blue: 0.478 alpha: 1];
     self.sepctrogramPlot.color = [UIColor colorWithRed: 1.000 green: 1.000 blue: 1.000 alpha: 1];
     self.sepctrogramPlot.plotType = EZPlotTypeBuffer;
+    self.sepctrogramPlot.rollingHistoryLength = 128;
     
-    //self.sepctrogramPlot.stft.delegate = self;
+    
+    BOOL flag = YES;
+    self.audioPlot.shouldOptimizeForRealtimePlot = flag;
+    self.sepctrogramPlot.shouldOptimizeForRealtimePlot = flag;
     
     //
     // Start the microphone
@@ -93,18 +101,18 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [weakSelf.audioPlot updateBuffer:buffer[0] withBufferSize:bufferSize];
     });
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [weakSelf.sepctrogramPlot updateBuffer:buffer[0] withBufferSize:bufferSize];
-    });
-    //[weakSelf.sepctrogramPlot.stft computeSTFTWithBuffer:buffer[0] withBufferSize:bufferSize];
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [weakSelf.sepctrogramPlot updateBuffer:buffer[0] withBufferSize:bufferSize];
+//    });
+    [self.stft computeSTFTWithBuffer:buffer[0] withBufferSize:bufferSize];
 }
 
-//- (void)stft:(EZAudioSTFT *)stft updatedWithSTFTData:(float *)stftData bufferSize:(vDSP_Length)bufferSize {
-//    __weak typeof(self) _weakSelf = self;
-//    dispatch_async(dispatch_get_main_queue(), ^ {
-//        [_weakSelf.sepctrogramPlot updateBuffer:stftData withBufferSize:bufferSize];
-//    });
-//    
-//}
+- (void)stft:(EZAudioSTFT *)stft updatedWithSTFTData:(float *)stftData bufferSize:(vDSP_Length)bufferSize {
+    __weak typeof(self) _weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^ {
+        [_weakSelf.sepctrogramPlot updateBuffer:stftData withBufferSize:bufferSize];
+    });
+    
+}
 
 @end

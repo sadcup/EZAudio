@@ -30,6 +30,9 @@
 #pragma mark - Constants
 //------------------------------------------------------------------------------
 
+#define WIDTH  1024
+#define HEIGHT 128
+
 UInt32 const EZAudioSpectralPlotDefaultHistoryBufferLength = 512;
 UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
 
@@ -105,10 +108,10 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
     
-    self.spectrogramLayer.frame = self.bounds;
+    //self.spectrogramLayer.frame = self.bounds;
     
     
-    [self redraw];
+    //[self redraw];
     [CATransaction commit];
 }
 #elif TARGET_OS_MAC
@@ -118,7 +121,7 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
     self.waveformLayer.frame = self.bounds;
-    [self redraw];
+    //[self redraw];
     [CATransaction commit];
 }
 #endif
@@ -126,7 +129,7 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
 - (void)initPlot
 {
 
-    self.shouldOptimizeForRealtimePlot = YES;
+    //self.shouldOptimizeForRealtimePlot = YES;
     //self.shouldOptimizeForRealtimePlot = NO;
     
     self.gain = 1.0;
@@ -137,28 +140,33 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
     // Setup history window
     [self resetHistoryBuffers];
     
-    self.spectrogramLayer = [[EZAudioSpectralPlotWaveformLayer alloc] initWithWidth:512 height:512];
-    self.spectrogramLayer.frame = self.bounds;
+    //self.spectrogramLayer = [[EZAudioSpectralPlotWaveformLayer alloc] initWithWidth:512 height:512];
+    //self.spectrogramLayer.frame = self.bounds;
 
-    self.spectrogramLayer.opaque = YES;
+    //self.spectrogramLayer.opaque = YES;
     
-    self.spectrogramLayer.rollingBufferLength = 32 * 1024;
+    //self.spectrogramLayer.rollingBufferLength = 32 * 1024;
     
-    NSLog(@"%@", self.spectrogramLayer.imagContext);
+    //NSLog(@"%@", self.spectrogramLayer.imagContext);
     
     self.backgroundColor = nil;
     
-    [self.layer insertSublayer:self.spectrogramLayer atIndex:0];
+    //[self.layer insertSublayer:self.spectrogramLayer atIndex:0];
     
     [self setupPlot];
     
-    self.points = calloc(EZAudioSpectralPlotDefaultMaxHistoryBufferLength, sizeof(CGPoint));
-    self.pointCount = [self initialPointCount];
+    //self.points = calloc(EZAudioSpectralPlotDefaultMaxHistoryBufferLength, sizeof(CGPoint));
+    //self.pointCount = [self initialPointCount];
     
-    self.stft = [[EZAudioSTFT alloc] initWithBufferSize:1024 fftSize:128 sampleRate:0.0 delegate:self];
+    //self.stft = [[EZAudioSTFT alloc] initWithBufferSize:1024 fftSize:128 sampleRate:0.0 delegate:self];
 
     
-    [self redraw];
+    self.data = calloc(WIDTH * HEIGHT, sizeof(UInt32));
+    self.layerArray = [[NSMutableArray alloc] init];
+    self.counter = 0;
+    self.frameCounter = 0;
+    
+    //[self redraw];
 }
 
 //------------------------------------------------------------------------------
@@ -216,7 +224,7 @@ UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength = 8192;
         float data[self.pointCount];
         memset(data, 0, self.pointCount * sizeof(float));
         [self setSampleData:data length:self.pointCount];
-        [self redraw];
+        //[self redraw];
     }
 }
 
@@ -235,78 +243,89 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
 
 - (void)redraw {
     
-    float * tmpData = malloc(self.pointCount * sizeof(float));
-    for (int i=0; i<self.pointCount; i++) {
-        tmpData[i] = self.points[i].y;
-        //tmpData[i] = sinf(2 * M_PI * 5000 * i / 44100);
+    if (abs(self.counter-self.frameCounter) == 0) {
+        return;
     }
     
-    float * stftData = [self.stft computeSTFTWithBuffer:tmpData withBufferSize:self.pointCount];
+    UInt32 width = WIDTH/128;
+    float ratio = self.bounds.size.width / WIDTH;
     
+    int width1 = width * ratio;
     
-    free(tmpData);
+    //UInt32 * newData = self.data + self.counter * width1 * HEIGHT;
+    UInt32 * thisData = self.data + self.frameCounter * width1 * HEIGHT;
     
+    int frameWidth = width * (self.counter - self.frameCounter + WIDTH/width) % (WIDTH/width);
+    int frameWidth1 =  width1 * (self.counter - self.frameCounter + WIDTH/width) % (WIDTH/width);
     
-    //float * stftData = self.stft.stftData;
-
+    NSLog(@"update length %d", frameWidth1);
     
-    UInt32 updateLength =  (UInt32)((float)self.pointCount / self.spectrogramLayer.rollingBufferLength * self.spectrogramLayer.width);
+    EZAudioSpectralPlotWaveformLayer * newLayer = [[EZAudioSpectralPlotWaveformLayer alloc] initWithData:thisData width:frameWidth height:HEIGHT];
+    newLayer.frame = CGRectMake(self.bounds.size.width, 0, frameWidth1, self.bounds.size.height);
+    [self.layerArray addObject:newLayer];
+    [self.layer addSublayer:newLayer];
+    [newLayer setNeedsDisplay];
     
-    UInt32 * toAddress = self.spectrogramLayer.data;
-    UInt32 * fromAddress = self.spectrogramLayer.data + updateLength * self.spectrogramLayer.height;
+    NSMutableIndexSet * toBeDelete = [[NSMutableIndexSet alloc] init];
     
-    memcpy(toAddress, fromAddress, (self.spectrogramLayer.width - updateLength ) * self.spectrogramLayer.height * sizeof (UInt32));
-    
-    
-    UInt32 * newData = self.spectrogramLayer.data + (self.spectrogramLayer.width - updateLength ) * self.spectrogramLayer.height;
-    
-    float timeStep = (float)self.pointCount / updateLength;
-    float freqStep = (float)self.stft.fftSize / 2 / self.spectrogramLayer.height;
-
-    int localWidth = timeStep < 1 ? 1 : timeStep;
-    int localHeight = freqStep < 1 ? 1 : freqStep;
-    
-    NSLog(@"updateLength: %u", (unsigned int)updateLength);
-    
-    for (int i = 0; i<updateLength; i++) {
-        for (int j=0; j<self.spectrogramLayer.height; j++) {
-            // find the local matrix and extract it into one point.
-            int originx = i * timeStep;
-            int originy = j * freqStep;
-
-            float mean = 0.0;
-            
-            mean = stftData[originx*self.stft.fftSize/2+originy];
-            
-            for (int ii = 0; ii<localWidth; ii++) {
-                for (int jj = 0; jj<localHeight; jj++) {
-                    mean += stftData[(originx+ii)*self.stft.fftSize/2 + (originy+jj)];
-                }
-            }
-            mean /= (localWidth * localHeight);
-            
-            
-            
-            int colorIdx = (mean * COLORMAPSIZE);
-
-            if (colorIdx >= COLORMAPSIZE) colorIdx=COLORMAPSIZE-1;
-            if (colorIdx < 0) colorIdx = 0;
-
-            UInt32 newR = colormap_r[colorIdx];
-            UInt32 newG = colormap_g[colorIdx];
-            UInt32 newB = colormap_b[colorIdx];
-
-            //Clamp, not really useful here :p
-            newR = MAX(0,MIN(255, newR));
-            newG = MAX(0,MIN(255, newG));
-            newB = MAX(0,MIN(255, newB));
-
-            newData[i*self.spectrogramLayer.height+j] = RGBAMake(newR, newG, newB, 0xFF);
-            
+    for(int i = 0; i< self.layerArray.count; i++) {
+        
+        EZAudioSpectralPlotWaveformLayer * lay = self.layerArray[i];
+        
+        //if (lay.frame.origin.x + lay.frame.size.width < -width) {
+        if (lay.position.x + frameWidth1 < 0) {
+            [lay removeFromSuperlayer];
+            [toBeDelete addIndex:i];
         }
+        
+        lay.position = CGPointMake(lay.position.x - frameWidth1, lay.position.y);
+        
     }
     
-    [self.spectrogramLayer setNeedsDisplay];
+    
+    [self.layerArray removeObjectsAtIndexes:toBeDelete];
+    
+    self.frameCounter = self.counter;
+    
+    
+}
+
+- (void)redrawWithBuffer:(float *)buffer {
+    
+
+    
+    
+//    EZAudioSpectralPlotWaveformLayer * newLayer = [[EZAudioSpectralPlotWaveformLayer alloc] initWithData:newData width:width height:HEIGHT];
+//    newLayer.frame = CGRectMake(self.bounds.size.width + width1, 0, width1, self.bounds.size.height);
+//    
+//    NSLog(@"current view's width %f height %f", self.bounds.size.width, self.bounds.size.height);
+//    
+//    [self.layerArray addObject:newLayer];
+//    [self.layer addSublayer:newLayer];
+//    //[newLayer setNeedsDisplay];
+//    
+//    
+//    NSMutableIndexSet * toBeDelete = [[NSMutableIndexSet alloc] init];
+//    
+//    for(int i = 0; i< self.layerArray.count; i++) {
+//        
+//        EZAudioSpectralPlotWaveformLayer * lay = self.layerArray[i];
+//        
+//        //if (lay.frame.origin.x + lay.frame.size.width < -width) {
+//        if (lay.position.x + 2 *width1 < 0) {
+//            [lay removeFromSuperlayer];
+//            [toBeDelete addIndex:i];
+//        }
+//        
+//        lay.position = CGPointMake(lay.position.x - width1, lay.position.y);
+//
+//    }
+//    
+//    
+//    [self.layerArray removeObjectsAtIndexes:toBeDelete];
+    
+    
+
     
 }
 
@@ -334,11 +353,72 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
             break;
     }
     
-    // update drawing
-    if (!self.shouldOptimizeForRealtimePlot)
-    {
-        [self redraw];
+    UInt32 width = WIDTH/128;
+    float ratio = self.bounds.size.width / WIDTH;
+    
+    int width1 = width * ratio;
+    
+    UInt32 * newData = self.data + self.counter * width1 * HEIGHT;
+    
+    
+    float timeStep = (float)1024/8 / width;
+    float freqStep = (float)128 / HEIGHT;
+    
+    int localWidth = timeStep < 1 ? 1 : timeStep;
+    int localHeight = freqStep < 1 ? 1 : freqStep;
+    
+    
+    for (int i = 0; i<width; i++) {
+        for (int j=0; j<HEIGHT; j++) {
+            // find the local matrix and extract it into one point.
+            int originx = i * timeStep;
+            int originy = j * freqStep;
+            
+            float mean = 0.0;
+            
+            mean = buffer[originx*128+originy];
+            
+            //            for (int ii = 0; ii<localWidth; ii++) {
+            //                for (int jj = 0; jj<localHeight; jj++) {
+            //                    mean += buffer[(originx+ii)*128 + (originy+jj)];
+            //                }
+            //            }
+            //            mean /= (localWidth * localHeight);
+            
+            
+            
+            int colorIdx = (mean * COLORMAPSIZE);
+            
+            if (colorIdx >= COLORMAPSIZE) colorIdx=COLORMAPSIZE-1;
+            if (colorIdx < 0) colorIdx = 0;
+            
+            UInt32 newR = colormap_r[colorIdx];
+            UInt32 newG = colormap_g[colorIdx];
+            UInt32 newB = colormap_b[colorIdx];
+            
+            //Clamp, not really useful here :p
+            newR = MAX(0,MIN(255, newR));
+            newG = MAX(0,MIN(255, newG));
+            newB = MAX(0,MIN(255, newB));
+            
+            //newData[i*HEIGHT + j] = RGBAMake(newR, newG, newB, 0xFF);
+            newData[j*width + i] = RGBAMake(newR, newG, newB, 0xFF);
+            
+        }
     }
+
+    
+    //[self redrawWithBuffer:buffer];
+    
+    
+    self.counter++;
+    self.counter %= WIDTH/width;
+    
+    // update drawing
+    //if (!self.shouldOptimizeForRealtimePlot)
+    //{
+    //    [self redraw];
+    //}
     
 }
 
@@ -346,14 +426,20 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
 
 - (void)setSampleData:(float *)data length:(int)length
 {
-    CGPoint *points = self.points;
-    for (int i = 0; i < length; i++)
-    {
-        points[i].x = i;
-        points[i].y = data[i] * self.gain;
-    }
-    points[0].y = points[length - 1].y = 0.0f;
-    self.pointCount = length;
+//    CGPoint *points = self.points;
+//    for (int i = 0; i < length; i++)
+//    {
+//        points[i].x = i;
+//        points[i].y = data[i] * self.gain;
+//    }
+//    points[0].y = points[length - 1].y = 0.0f;
+//    self.pointCount = length;
+    
+    
+}
+
+- (void)setSampleData:(float *)data width:(int)width height:(int)height {
+    
 }
 
 //------------------------------------------------------------------------------
@@ -403,6 +489,7 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
 
 - (void)displayLinkNeedsDisplay:(EZAudioDisplayLink *)displayLink
 {
+    NSLog(@"will call redraw from displayLinkNeedsDisplay.");
     [self redraw];
 }
 
@@ -415,55 +502,48 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
 
 @interface EZAudioSpectralPlotWaveformLayer ()
 
-@property (nonatomic, assign) BOOL flag;
-@property (nonatomic, assign) int counter;
-
+@property (nonatomic, assign) CGImageRef newImage;
+@property (nonatomic, assign) int width;
+@property (nonatomic, assign) int height;
 
 @end
 
 
 @implementation EZAudioSpectralPlotWaveformLayer
 
-- (instancetype)initWithWidth:(UInt32)width height:(UInt32)height {
+
+- (instancetype)initWithData:(UInt32 *)data width:(int)width height:(int)height {
     self = [super init];
     if (self) {
+        //_data = calloc(width * height, sizeof(UInt32));
+        //memcpy(_data, data, width*height*sizeof(UInt32));
+        
         _width = width;
         _height = height;
-        _imagContext = MyCreateBitmapContext(_height, _width);
-        _data = CGBitmapContextGetData(_imagContext);
+        
+        CGContextRef context = MyCreateBitmapContext(self.width, self.height);
+        
+        UInt32 * bitmapData = CGBitmapContextGetData(context);
+        for (int i=0; i<self.height; i++) {
+            for (int j=0; j<self.width; j++) {
+                bitmapData[i*self.width+j] = data[i*self.width + j];
+            }
+        }
+        
+        self.newImage = CGBitmapContextCreateImage(context);
+        
+        free(bitmapData);
+        CGContextRelease(context);
+        
     }
     return self;
 }
 
-
 - (void)drawInContext:(CGContextRef)ctx {
-    
-    CGImageRef  newImage = CGBitmapContextCreateImage(self.imagContext);
-    
-    CGContextRotateCTM(ctx, M_PI/2);
-    CGContextScaleCTM(ctx, self.bounds.size.height/self.bounds.size.width, self.bounds.size.width/self.bounds.size.height);
-    CGContextTranslateCTM(ctx, 0, -self.bounds.size.height);
-    
-    CGContextDrawImage(ctx, self.bounds, newImage);
-    
-    CGImageRelease(newImage);
-    
+    CGContextDrawImage(ctx, self.bounds, self.newImage);
+    //CGImageRelease(self.newImage);
 }
 
-- (void)dealloc {
-    NSLog(@"dealloc of MovingLayer is called.");
-    
-    
-    if (self.imagContext) {
-        CGContextRelease(self.imagContext);
-    }
-    if (self.data) {
-        free(self.data);
-    }
-    
-}
-
-//------------------------------------------------------------------------------
 CGContextRef MyCreateBitmapContext (int pixelsWide, int pixelsHigh) {
     CGContextRef    context = NULL;
     CGColorSpaceRef colorSpace;
@@ -492,6 +572,12 @@ CGContextRef MyCreateBitmapContext (int pixelsWide, int pixelsHigh) {
     }
     CGColorSpaceRelease( colorSpace );
     return context;
+}
+
+
+- (void)dealloc {
+    //free(self.data);
+    CGImageRelease(self.newImage);
 }
 
 @end

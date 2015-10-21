@@ -43,22 +43,9 @@ FOUNDATION_EXPORT UInt32 const EZAudioSpectralPlotDefaultHistoryBufferLength;
  */
 FOUNDATION_EXPORT UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength;
 
-//------------------------------------------------------------------------------
-#pragma mark - EZAudioSpectralPlotWaveformLayer
-//------------------------------------------------------------------------------
-
-/**
- The EZAudioSpectralPlotWaveformLayer is a lightweight subclass of the CAShapeLayer that allows implicit animations on the `path` key.
- */
-//@interface EZAudioSpectralPlotWaveformLayer : CAShapeLayer
 @interface EZAudioSpectralPlotWaveformLayer : CALayer
-@property (nonatomic, assign) CGContextRef imagContext;
-@property (nonatomic, assign) UInt32 * data;
-@property (nonatomic, assign) UInt32 rollingBufferLength;
-@property (nonatomic, assign) UInt32  width;
-@property (nonatomic, assign) UInt32  height;
 
-- (instancetype)initWithWidth:(UInt32)width height:(UInt32)height;
+- (instancetype)initWithData:(UInt32 *)data width:(int)width height:(int)height;
 
 @end
 
@@ -73,12 +60,10 @@ FOUNDATION_EXPORT UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength;
  */
 @property (nonatomic, assign) BOOL shouldOptimizeForRealtimePlot;
 
+
+@property (nonatomic, assign) int rollingHistoryLength;
 //------------------------------------------------------------------------------
 
-/**
- An EZAudioSpectralPlotWaveformLayer that is used to render the actual waveform. By switching the drawing code to Core Animation layers in version 0.2.0 most work, specifically the compositing step, is now done on the GPU. Hence, multiple EZAudioSpectralPlot instances can be used simultaneously with very low CPU overhead so these are now practical for table and collection views.
- */
-@property (nonatomic, strong) EZAudioSpectralPlotWaveformLayer *spectrogramLayer;
 
 /**
  Provides the default length of the rolling history buffer when the plot is initialized. Default is `EZAudioSpectralPlotDefaultHistoryBufferLength` constant.
@@ -109,12 +94,14 @@ FOUNDATION_EXPORT UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength;
  */
 - (int)maximumRollingHistoryLength;
 
+
+
 //------------------------------------------------------------------------------
 
 /**
  Method to cause the waveform layer's path to get recreated and redrawn on screen using the last buffer of data provided. This is the equivalent to the drawRect: method used to normally subclass a view's drawing. This normally don't need to be overrode though - a better approach would be to override the `createPathWithPoints:pointCount:inRect:` method.
  */
-- (void)redraw;
+- (void)redrawWithBuffer:(float *)buffer;
 
 //------------------------------------------------------------------------------
 
@@ -126,9 +113,12 @@ FOUNDATION_EXPORT UInt32 const EZAudioSpectralPlotDefaultMaxHistoryBufferLength;
  */
 -(void)setSampleData:(float *)data length:(int)length;
 
+
+@property (nonatomic, strong) NSMutableArray * layerArray;
+@property (nonatomic, assign) UInt32 * data;
+@property (nonatomic, assign) int counter;
+
+@property (nonatomic, assign) int frameCounter;
+
 //------------------------------------------------------------------------------
-
-@property (nonatomic, strong) EZAudioSTFT * stft;
-
-
 @end

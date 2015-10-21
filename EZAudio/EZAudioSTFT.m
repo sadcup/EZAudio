@@ -38,9 +38,11 @@
         self.fftSize = fftSize;
         self.fftSink = calloc(fftSize, sizeof(float));
         
-        self.windowsLength = 27 * 2;
+        self.windowsLength = 27;
         self.windows = gausswin(self.windowsLength, 2.5);
         self.localBuffer = initLocalBuffer(self.windowsLength);
+        
+        self.delegate = delegate;
 
     }
     return self;
@@ -88,7 +90,7 @@ float * initLocalBuffer(int len) {
     
     float maxValue = CGFLOAT_MIN;
     
-    for (int i = 0; i < bufferSize; i++) {
+    for (int i = 0; i < bufferSize; i+=8) {
 
         for (int j = 0; j < self.windowsLength; j++) {
             if (i+j < bufferSize) {
