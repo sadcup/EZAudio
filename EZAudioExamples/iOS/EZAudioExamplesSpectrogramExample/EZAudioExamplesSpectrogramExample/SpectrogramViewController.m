@@ -57,7 +57,7 @@
     self.sepctrogramPlot.rollingHistoryLength = 128;
     
     
-    BOOL flag = YES;
+    BOOL flag = NO;
     self.audioPlot.shouldOptimizeForRealtimePlot = flag;
     self.sepctrogramPlot.shouldOptimizeForRealtimePlot = flag;
     

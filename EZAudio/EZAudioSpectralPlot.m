@@ -414,6 +414,8 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
     self.counter++;
     self.counter %= WIDTH/width;
     
+    [self redraw];
+    
     // update drawing
     //if (!self.shouldOptimizeForRealtimePlot)
     //{
@@ -490,7 +492,7 @@ const unsigned int colormap_b[] = {143,159,175,191,207,223,239,255,255,255,255,2
 - (void)displayLinkNeedsDisplay:(EZAudioDisplayLink *)displayLink
 {
     NSLog(@"will call redraw from displayLinkNeedsDisplay.");
-    [self redraw];
+    //[self redraw];
 }
 
 
